@@ -11,33 +11,25 @@ const PORT = 5000;
 
 // Middleware
 app.use(cors()); // Allows your frontend to talk to your backend
-app.use(express.json({ limit: '10mb' })); 
-app.use(express.urlencoded({ limit: '10mb', extended: true })); 
-
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Multer storage configuration
 const storage = multer.memoryStorage();
 
 // Max image size 5MB set kar rahe hain taaki database overload na ho
-const upload = multer({ 
+const upload = multer({
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 } 
+    limits: { fileSize: 10 * 1024 * 1024 }
 });
-
-// Make the 'uploads' folder accessible to the frontend
-app.use('/uploads', express.static(uploadDir));
 
 // ==========================================
 // 1. MongoDB Connection
 // ==========================================
 // Connects to a local MongoDB database named 'elegance_salon'
 mongoose.connect('mongodb+srv://kunal:KdVygwFo0Anau8uX@hitesh.cqczgkd.mongodb.net/salon')
-  .then(() => console.log('✅ Connected to MongoDB successfully!'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+    .then(() => console.log('✅ Connected to MongoDB successfully!'))
+    .catch(err => console.error('❌ MongoDB connection error:', err));
 
 
 // ==========================================
@@ -69,7 +61,7 @@ const ServiceSchema = new mongoose.Schema({
     duration: Number,
     mood: String,
     popular: Boolean,
-    imageUrl: String 
+    imageUrl: String
 });
 const Service = mongoose.model('Service', ServiceSchema);
 
@@ -119,7 +111,7 @@ seedServices();
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, phone, email, password } = req.body;
-        
+
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: "Email already registered." });
 
@@ -129,9 +121,9 @@ app.post('/api/auth/register', async (req, res) => {
         const newUser = new User({ name, phone, email, password: hashedPassword });
         await newUser.save();
 
-        res.status(201).json({ 
-            message: "User created", 
-            user: { _id: newUser._id, name, phone, email } 
+        res.status(201).json({
+            message: "User created",
+            user: { _id: newUser._id, name, phone, email }
         });
     } catch (err) {
         res.status(500).json({ message: "Server Error", error: err.message });
@@ -149,9 +141,9 @@ app.post('/api/auth/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid email or password." });
 
-        res.status(200).json({ 
-            message: "Login successful", 
-            user: { _id: user._id, name: user.name, phone: user.phone, email: user.email } 
+        res.status(200).json({
+            message: "Login successful",
+            user: { _id: user._id, name: user.name, phone: user.phone, email: user.email }
         });
     } catch (err) {
         res.status(500).json({ message: "Server Error", error: err.message });
@@ -174,7 +166,7 @@ app.use((err, req, res, next) => {
 app.post('/api/admin/auth/register', async (req, res) => {
     try {
         const { name, phone, email, password } = req.body;
-        
+
         const existingAdmin = await Admin.findOne({ email });
         if (existingAdmin) return res.status(400).json({ message: "Admin email already registered." });
 
@@ -184,9 +176,9 @@ app.post('/api/admin/auth/register', async (req, res) => {
         const newAdmin = new Admin({ name, phone, email, password: hashedPassword });
         await newAdmin.save();
 
-        res.status(201).json({ 
-            message: "Admin created", 
-            user: { _id: newAdmin._id, name, phone, email } 
+        res.status(201).json({
+            message: "Admin created",
+            user: { _id: newAdmin._id, name, phone, email }
         });
     } catch (err) {
         res.status(500).json({ message: "Server Error", error: err.message });
@@ -204,9 +196,9 @@ app.post('/api/admin/auth/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, admin.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid admin credentials." });
 
-        res.status(200).json({ 
-            message: "Admin login successful", 
-            user: { _id: admin._id, name: admin.name, phone: admin.phone, email: admin.email } 
+        res.status(200).json({
+            message: "Admin login successful",
+            user: { _id: admin._id, name: admin.name, phone: admin.phone, email: admin.email }
         });
     } catch (err) {
         res.status(500).json({ message: "Server Error", error: err.message });
@@ -325,7 +317,7 @@ app.patch('/api/bookings/:id/status', async (req, res) => {
     try {
         const { status } = req.body;
         let updateData = { status };
-        
+
         // Agar booking reject ho gayi, toh blocked slots khali kar do taaki dusra koi book kar sake
         if (status === 'Rejected') {
             updateData.blockedSlots = [];
@@ -360,7 +352,7 @@ app.post('/api/auth/google', async (req, res) => {
             idToken: token,
             audience: '322997860332-p6g82li62crt2b7nmpe5sf1k2cd11e0v.apps.googleusercontent.com',
         });
-        
+
         const payload = ticket.getPayload();
         const { email, name } = payload;
 
@@ -377,9 +369,9 @@ app.post('/api/auth/google', async (req, res) => {
             await user.save();
         }
 
-        res.status(200).json({ 
-            message: "Success", 
-            user: { _id: user._id, name: user.name, phone: user.phone, email: user.email } 
+        res.status(200).json({
+            message: "Success",
+            user: { _id: user._id, name: user.name, phone: user.phone, email: user.email }
         });
     } catch (err) {
         console.error("Google Auth Error:", err);
@@ -390,11 +382,11 @@ app.post('/api/auth/google', async (req, res) => {
 app.delete('/api/bookings/:id', async (req, res) => {
     try {
         const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
-        
+
         if (!deletedBooking) {
             return res.status(404).json({ message: "Booking not found." });
         }
-        
+
         res.status(200).json({ message: "Booking deleted successfully" });
     } catch (err) {
         console.error("Delete Error:", err);

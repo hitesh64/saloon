@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Elegance Salon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         :root {
@@ -24,143 +27,631 @@
             --shadow-soft: 0 8px 32px rgba(216, 27, 96, 0.08);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { 
-            background: linear-gradient(135deg, #fdfbfb 0%, #eaedee 100%); 
-            color: var(--text-dark); 
-            overflow-x: hidden; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #eaedee 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--dark-pink); }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-pink);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-pink);
+        }
 
         /* --- Auth View (Login/Register) --- */
-        #auth-view { 
-            display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+        #auth-view {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             background: radial-gradient(circle at top right, var(--primary-pink), transparent),
-                        radial-gradient(circle at bottom left, #ffebee, transparent);
+                radial-gradient(circle at bottom left, #ffebee, transparent);
             padding: 20px;
         }
-        .auth-box { 
-            background: var(--glass-bg); 
+
+        .auth-box {
+            background: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 40px; 
-            border-radius: 24px; 
+            padding: 40px;
+            border-radius: 24px;
             border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-soft); 
-            width: 100%; max-width: 450px; text-align: center; 
-            position: relative; overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .auth-box h2 { font-family: 'Playfair Display', serif; color: var(--dark-pink); margin-bottom: 25px; font-size: 28px; }
-        .auth-toggle { display: flex; background: rgba(0,0,0,0.03); border-radius: 30px; margin-bottom: 25px; padding: 5px; position: relative; }
-        .auth-toggle button { flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 25px; font-weight: 600; color: var(--text-light); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2; }
-        .auth-toggle button.active { color: var(--white); }
+
+        .auth-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-pink);
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .auth-toggle {
+            display: flex;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 30px;
+            margin-bottom: 25px;
+            padding: 5px;
+            position: relative;
+        }
+
+        .auth-toggle button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+        }
+
+        .auth-toggle button.active {
+            color: var(--white);
+        }
+
         .auth-toggle::before {
-            content: ''; position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px);
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: calc(50% - 5px);
+            height: calc(100% - 10px);
             background: linear-gradient(135deg, var(--accent-pink), var(--dark-pink));
-            border-radius: 25px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1;
+            border-radius: 25px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
         }
-        .auth-toggle.register-active::before { left: 50%; }
-        
-        .auth-form { display: none; text-align: left; animation: fadeIn 0.4s ease-out; }
-        .auth-form.active { display: block; }
-        
-        .form-group { margin-bottom: 20px; position: relative; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
-        .form-control { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 12px; font-size: 14px; outline: none; transition: all 0.3s; background: rgba(255,255,255,0.7); }
-        .form-control:focus { border-color: var(--accent-pink); background: #fff; box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.1); transform: translateY(-2px); }
-        .error-msg { color: var(--danger); font-size: 12px; margin-top: 5px; display: none; font-weight: 500; }
-        
-        .btn { padding: 14px 24px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s; width: 100%; display: inline-flex; justify-content: center; align-items: center; gap: 8px; font-size: 15px; }
-        .btn-primary { background: linear-gradient(135deg, var(--accent-pink), var(--dark-pink)); color: var(--white); box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(216, 27, 96, 0.3); }
+
+        .auth-toggle.register-active::before {
+            left: 50%;
+        }
+
+        .auth-form {
+            display: none;
+            text-align: left;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-pink);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-pink), var(--dark-pink));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(216, 27, 96, 0.3);
+        }
 
         /* --- Admin Dashboard Layout --- */
-        #admin-view { display: none; min-height: 100vh; flex-direction: row; }
-        
+        #admin-view {
+            display: none;
+            min-height: 100vh;
+            flex-direction: row;
+        }
+
         /* Sidebar */
-        .sidebar { width: 280px; background: var(--glass-bg); backdrop-filter: blur(20px); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; padding: 30px 20px; position: sticky; top: 0; height: 100vh; z-index: 100; transition: 0.3s; }
-        .sidebar-brand { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--dark-pink); text-align: center; margin-bottom: 40px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
-        .nav-link { padding: 14px 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s; border-radius: 12px; cursor: pointer; }
-        .nav-link:hover { background: rgba(255, 240, 245, 0.5); color: var(--dark-pink); transform: translateX(5px); }
-        .nav-link.active { background: var(--primary-pink); color: var(--dark-pink); font-weight: 600; box-shadow: inset 4px 0 0 var(--dark-pink); }
-        .logout-btn { margin-top: auto; color: var(--danger); background: #ffebee; }
-        .logout-btn:hover { background: var(--danger); color: white; }
+        .sidebar {
+            width: 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .sidebar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--dark-pink);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            padding: 14px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 240, 245, 0.5);
+            color: var(--dark-pink);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: var(--primary-pink);
+            color: var(--dark-pink);
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 var(--dark-pink);
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            color: var(--danger);
+            background: #ffebee;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
 
         /* Main Content */
-        .main-content { flex: 1; padding: 40px; display: flex; flex-direction: column; width: calc(100% - 280px); }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; background: var(--glass-bg); padding: 20px 30px; border-radius: 20px; backdrop-filter: blur(10px); box-shadow: var(--shadow-soft); border: 1px solid var(--glass-border); }
-        .header h1 { font-family: 'Playfair Display', serif; color: var(--text-dark); font-size: 28px; }
-        .admin-profile { display: flex; align-items: center; gap: 12px; background: var(--primary-pink); padding: 10px 20px; border-radius: 30px; font-weight: 600; color: var(--dark-pink); border: 1px solid rgba(216, 27, 96, 0.1); }
-        .admin-profile img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; background: white; }
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 280px);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: var(--glass-bg);
+            padding: 20px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-dark);
+            font-size: 28px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--primary-pink);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: var(--dark-pink);
+            border: 1px solid rgba(216, 27, 96, 0.1);
+        }
+
+        .admin-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+        }
 
         /* Dashboard Widgets */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        .stat-card { background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(216, 27, 96, 0.15); }
-        .stat-card::after { content: '📊'; position: absolute; right: 20px; bottom: 10px; font-size: 60px; opacity: 0.05; }
-        .stat-card h3 { color: var(--text-light); font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .stat-card .value { font-size: 42px; font-weight: 700; color: var(--dark-pink); font-family: 'Playfair Display', serif; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(216, 27, 96, 0.15);
+        }
+
+        .stat-card::after {
+            content: '📊';
+            position: absolute;
+            right: 20px;
+            bottom: 10px;
+            font-size: 60px;
+            opacity: 0.05;
+        }
+
+        .stat-card h3 {
+            color: var(--text-light);
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--dark-pink);
+            font-family: 'Playfair Display', serif;
+        }
 
         /* Data Tables Container */
-        .table-container { background: var(--glass-bg); border-radius: 20px; padding: 30px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); overflow-x: auto; margin-bottom: 30px; }
-        .table-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-        .table-header-row h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text-dark); }
-        
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; min-width: 800px; }
-        th, td { padding: 18px 20px; text-align: left; font-size: 14px; }
-        th { color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; border-bottom: 2px solid #eee; }
-        tbody tr { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.02); transition: 0.3s; border-radius: 12px; }
-        tbody tr:hover { transform: scale(1.01); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        tbody td:first-child { border-radius: 12px 0 0 12px; }
-        tbody td:last-child { border-radius: 0 12px 12px 0; }
-        
-        .status-badge { padding: 6px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; letter-spacing: 0.5px; }
-        
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-        
+        .table-container {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        .table-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-header-row h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--text-dark);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #eee;
+        }
+
+        tbody tr {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: 0.3s;
+            border-radius: 12px;
+        }
+
+        tbody tr:hover {
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        tbody td:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        tbody td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
         /* --- Action Buttons --- */
-        .action-btn { border: none; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; gap: 6px; margin-right: 8px; margin-bottom: 5px; }
-        .btn-accept { background: rgba(46, 204, 113, 0.15); color: var(--success); }
-        .btn-accept:hover { background: var(--success); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3); }
-        .btn-reject { background: rgba(231, 76, 60, 0.15); color: var(--danger); }
-        .btn-reject:hover { background: var(--danger); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
-        .btn-delete-action { background: #f1f3f5; color: var(--text-light); }
-        .btn-delete-action:hover { background: var(--text-dark); color: #fff; transform: translateY(-2px); }
+        .action-btn {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .btn-accept {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--success);
+        }
+
+        .btn-accept:hover {
+            background: var(--success);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-reject {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--danger);
+        }
+
+        .btn-reject:hover {
+            background: var(--danger);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-delete-action {
+            background: #f1f3f5;
+            color: var(--text-light);
+        }
+
+        .btn-delete-action:hover {
+            background: var(--text-dark);
+            color: #fff;
+            transform: translateY(-2px);
+        }
 
         /* Modal Enhancements */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: var(--white); padding: 40px; border-radius: 24px; width: 90%; max-width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: scale(0.9); opacity: 0; }
-        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            opacity: 0;
+        }
+
         /* Footer */
-        .dashboard-footer { margin-top: auto; padding: 20px 0 0 0; text-align: center; color: var(--text-light); font-size: 14px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .dashboard-footer a { color: var(--dark-pink); text-decoration: none; font-weight: 600; }
+        .dashboard-footer {
+            margin-top: auto;
+            padding: 20px 0 0 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dashboard-footer a {
+            color: var(--dark-pink);
+            text-decoration: none;
+            font-weight: 600;
+        }
 
         /* --- Responsive Design --- */
         @media (max-width: 1024px) {
-            .sidebar { width: 240px; }
-            .main-content { width: calc(100% - 240px); padding: 20px; }
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                width: calc(100% - 240px);
+                padding: 20px;
+            }
         }
+
         @media (max-width: 768px) {
-            #admin-view { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; padding: 15px; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; border-right: none; border-bottom: 1px solid var(--glass-border); }
-            .sidebar-brand { margin-bottom: 0; font-size: 20px; width: 100%; text-align: left; margin-bottom: 15px; }
-            .nav-link { padding: 10px 15px; margin-bottom: 0; font-size: 13px; }
-            .main-content { width: 100%; padding: 15px; }
-            .header { flex-direction: column; gap: 15px; align-items: flex-start; padding: 15px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .dashboard-footer { flex-direction: column; text-align: center; }
+            #admin-view {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            .sidebar-brand {
+                margin-bottom: 0;
+                font-size: 20px;
+                width: 100%;
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .nav-link {
+                padding: 10px 15px;
+                margin-bottom: 0;
+                font-size: 13px;
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-footer {
+                flex-direction: column;
+                text-align: center;
+            }
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div id="auth-view">
@@ -182,7 +673,9 @@
                 </div>
                 <div id="login-error" class="error-msg">Invalid credentials.</div>
                 <button type="submit" class="btn btn-primary">🔐 Access Dashboard</button>
-                <a href="index.html" style="display:block; text-align:center; margin-top:20px; font-size:14px; color:var(--text-light); text-decoration:none; font-weight:500;">&larr; Back to Website</a>
+                <a href="index.html"
+                    style="display:block; text-align:center; margin-top:20px; font-size:14px; color:var(--text-light); text-decoration:none; font-weight:500;">&larr;
+                    Back to Website</a>
             </form>
 
             <form id="form-register" class="auth-form" onsubmit="handleRegister(event)">
@@ -192,7 +685,8 @@
                 </div>
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" id="reg-phone" class="form-control" placeholder="10-digit number" pattern="[0-9]{10}" required>
+                    <input type="tel" id="reg-phone" class="form-control" placeholder="10-digit number"
+                        pattern="[0-9]{10}" required>
                 </div>
                 <div class="form-group">
                     <label>Admin Email</label>
@@ -200,11 +694,13 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="reg-password" class="form-control" placeholder="Min 6 characters" minlength="6" required>
+                    <input type="password" id="reg-password" class="form-control" placeholder="Min 6 characters"
+                        minlength="6" required>
                 </div>
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <input type="password" id="reg-confirm" class="form-control" placeholder="Confirm Password" required>
+                    <input type="password" id="reg-confirm" class="form-control" placeholder="Confirm Password"
+                        required>
                 </div>
                 <div id="reg-error" class="error-msg">Passwords do not match.</div>
                 <button type="submit" class="btn btn-primary">✍️ Create Account</button>
@@ -228,7 +724,8 @@
                 <h1 id="page-title">Dashboard Overview</h1>
                 <div class="admin-profile">
                     <span>Hi, <span id="admin-name-display">Admin</span>!</span>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=F48FB1&color=fff" alt="Admin" id="admin-avatar">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=F48FB1&color=fff" alt="Admin"
+                        id="admin-avatar">
                 </div>
             </div>
 
@@ -238,7 +735,7 @@
                         <h3>Total Appointments</h3>
                         <div class="value" id="stat-total-bookings">0</div>
                     </div>
-                    </div> 
+                </div>
                 <div class="table-container table-anim">
                     <div class="table-header-row">
                         <h3>Recent Bookings</h3>
@@ -263,7 +760,8 @@
                 <div class="table-container table-anim">
                     <div class="table-header-row">
                         <h3>Salon Services Menu</h3>
-                        <button class="btn btn-primary" style="width:auto; padding:10px 20px;" onclick="openServiceModal()">➕ Add New Service</button>
+                        <button class="btn btn-primary" style="width:auto; padding:10px 20px;"
+                            onclick="openServiceModal()">➕ Add New Service</button>
                     </div>
                     <table>
                         <thead>
@@ -285,7 +783,9 @@
                 <div class="table-container table-anim">
                     <div class="table-header-row">
                         <h3>All Appointments</h3>
-                        <button class="btn btn-primary" style="width:auto; padding:10px 20px; background:var(--text-dark);" onclick="fetchBookings()">🔄 Refresh Data</button>
+                        <button class="btn btn-primary"
+                            style="width:auto; padding:10px 20px; background:var(--text-dark);"
+                            onclick="fetchBookings()">🔄 Refresh Data</button>
                     </div>
                     <table>
                         <thead>
@@ -313,7 +813,9 @@
 
     <div id="service-modal" class="modal-overlay">
         <div class="modal-content" id="modal-content-anim">
-            <h3 id="modal-service-title" style="font-family:'Playfair Display', serif; font-size:24px; color:var(--dark-pink); margin-bottom: 25px;">Add New Service</h3>
+            <h3 id="modal-service-title"
+                style="font-family:'Playfair Display', serif; font-size:24px; color:var(--dark-pink); margin-bottom: 25px;">
+                Add New Service</h3>
             <form id="service-form" onsubmit="saveService(event)">
                 <input type="hidden" id="srv-id">
                 <div class="form-group">
@@ -343,16 +845,20 @@
                     <input type="file" id="srv-image-file" class="form-control" accept="image/*" style="padding:10px;">
                     <div id="image-preview-container" style="margin-top: 15px; display: none;">
                         <p style="font-size:12px; color:var(--text-light); margin-bottom:8px;">Current Image:</p>
-                        <img id="image-preview" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; border: 2px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img id="image-preview" src=""
+                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; border: 2px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="form-group" style="display:flex; align-items:center; gap:10px; background:#fdfbfb; padding:15px; border-radius:12px; border:1px solid #eee;">
-                    <input type="checkbox" id="srv-popular" style="width:20px; height:20px; accent-color:var(--dark-pink);"> 
+                <div class="form-group"
+                    style="display:flex; align-items:center; gap:10px; background:#fdfbfb; padding:15px; border-radius:12px; border:1px solid #eee;">
+                    <input type="checkbox" id="srv-popular"
+                        style="width:20px; height:20px; accent-color:var(--dark-pink);">
                     <label style="margin:0; font-size:14px;">Mark as Popular Choice 🔥</label>
                 </div>
                 <div style="display:flex; gap:15px; margin-top:30px;">
                     <button type="submit" class="btn btn-primary" style="flex:2;">💾 Save Details</button>
-                    <button type="button" class="btn btn-delete-action" style="flex:1;" onclick="closeServiceModal()">Cancel</button>
+                    <button type="button" class="btn btn-delete-action" style="flex:1;"
+                        onclick="closeServiceModal()">Cancel</button>
                 </div>
             </form>
         </div>
@@ -360,28 +866,28 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        const API_BASE_URL = 'http://localhost:5000/api';
+        const API_BASE_URL = '/api';
         let currentAdmin = JSON.parse(localStorage.getItem('adminUser')) || null;
         let servicePricesMap = {};
 
         // GSAP Initial Animations
         function runAuthAnimations() {
-            gsap.fromTo("#auth-box-anim", {y: 50, opacity: 0}, {y: 0, opacity: 1, duration: 0.8, ease: "power3.out"});
+            gsap.fromTo("#auth-box-anim", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" });
         }
 
         function runDashboardEntryAnimations() {
-            gsap.fromTo("#sidebar-anim", {x: -50, opacity: 0}, {x: 0, opacity: 1, duration: 0.6, ease: "power2.out"});
-            gsap.fromTo("#header-anim", {y: -30, opacity: 0}, {y: 0, opacity: 1, duration: 0.6, delay: 0.2, ease: "power2.out"});
-            gsap.fromTo(".stat-anim", {y: 30, opacity: 0}, {y: 0, opacity: 1, duration: 0.5, delay: 0.4, stagger: 0.1, ease: "back.out(1.7)"});
-            gsap.fromTo(".table-anim", {y: 30, opacity: 0}, {y: 0, opacity: 1, duration: 0.6, delay: 0.5, ease: "power2.out"});
+            gsap.fromTo("#sidebar-anim", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" });
+            gsap.fromTo("#header-anim", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.2, ease: "power2.out" });
+            gsap.fromTo(".stat-anim", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, delay: 0.4, stagger: 0.1, ease: "back.out(1.7)" });
+            gsap.fromTo(".table-anim", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.5, ease: "power2.out" });
         }
 
         function animateTableRows(tbodyId) {
-            gsap.fromTo(`#${tbodyId} tr`, {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power1.out"});
+            gsap.fromTo(`#${tbodyId} tr`, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power1.out" });
         }
 
-        window.onload = () => { 
-            fetchServicePrices(); 
+        window.onload = () => {
+            fetchServicePrices();
             if (currentAdmin) {
                 showAdminDashboard();
             } else {
@@ -394,7 +900,7 @@
         async function fetchServicePrices() {
             try {
                 const response = await fetch(`${API_BASE_URL}/services`);
-                if(response.ok) {
+                if (response.ok) {
                     const services = await response.json();
                     services.forEach(s => servicePricesMap[s.name] = s.price);
                 }
@@ -408,10 +914,10 @@
             document.getElementById('btn-register').classList.remove('active');
             document.getElementById('login-error').style.display = 'none';
             document.getElementById('reg-error').style.display = 'none';
-            
+
             const toggleBg = document.getElementById('auth-toggle-bg');
 
-            if(type === 'login') {
+            if (type === 'login') {
                 document.getElementById('form-login').classList.add('active');
                 document.getElementById('btn-login').classList.add('active');
                 toggleBg.classList.remove('register-active');
@@ -442,7 +948,7 @@
                 } else {
                     errorMsg.innerText = data.message || "Invalid credentials.";
                     errorMsg.style.display = 'block';
-                    gsap.fromTo(errorMsg, {x: -10}, {x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})"});
+                    gsap.fromTo(errorMsg, { x: -10 }, { x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})" });
                 }
             } catch (error) {
                 errorMsg.innerText = "Server error. Is the backend running?";
@@ -462,7 +968,7 @@
             if (password !== confirm) {
                 errorMsg.innerText = "Passwords do not match!";
                 errorMsg.style.display = 'block';
-                gsap.fromTo(errorMsg, {x: -10}, {x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})"});
+                gsap.fromTo(errorMsg, { x: -10 }, { x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})" });
                 return;
             }
 
@@ -488,29 +994,33 @@
         }
 
         function logoutAdmin() {
-            gsap.to("#admin-view", {opacity: 0, duration: 0.3, onComplete: () => {
-                localStorage.removeItem('adminUser');
-                currentAdmin = null;
-                document.getElementById('auth-view').style.display = 'flex';
-                document.getElementById('admin-view').style.display = 'none';
-                document.getElementById('form-login').reset();
-                document.getElementById('form-register').reset();
-                gsap.to("#admin-view", {opacity: 1, duration: 0}); // reset
-                runAuthAnimations();
-            }});
+            gsap.to("#admin-view", {
+                opacity: 0, duration: 0.3, onComplete: () => {
+                    localStorage.removeItem('adminUser');
+                    currentAdmin = null;
+                    document.getElementById('auth-view').style.display = 'flex';
+                    document.getElementById('admin-view').style.display = 'none';
+                    document.getElementById('form-login').reset();
+                    document.getElementById('form-register').reset();
+                    gsap.to("#admin-view", { opacity: 1, duration: 0 }); // reset
+                    runAuthAnimations();
+                }
+            });
         }
 
         function showAdminDashboard() {
-            gsap.to("#auth-view", {opacity: 0, duration: 0.4, onComplete: () => {
-                document.getElementById('auth-view').style.display = 'none';
-                document.getElementById('admin-view').style.display = 'flex';
-                const displayName = currentAdmin?.name || 'Admin';
-                document.getElementById('admin-name-display').innerText = displayName;
-                document.getElementById('admin-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=F48FB1&color=fff`;
-                gsap.to("#auth-view", {opacity: 1, duration: 0}); // reset
-                switchTab('dashboard');
-                runDashboardEntryAnimations();
-            }});
+            gsap.to("#auth-view", {
+                opacity: 0, duration: 0.4, onComplete: () => {
+                    document.getElementById('auth-view').style.display = 'none';
+                    document.getElementById('admin-view').style.display = 'flex';
+                    const displayName = currentAdmin?.name || 'Admin';
+                    document.getElementById('admin-name-display').innerText = displayName;
+                    document.getElementById('admin-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=F48FB1&color=fff`;
+                    gsap.to("#auth-view", { opacity: 1, duration: 0 }); // reset
+                    switchTab('dashboard');
+                    runDashboardEntryAnimations();
+                }
+            });
         }
 
         function switchTab(tabName) {
@@ -521,14 +1031,14 @@
             document.querySelectorAll('.view-section').forEach(view => {
                 view.classList.remove('active');
             });
-            
+
             const targetView = document.getElementById(`view-${tabName}`);
             targetView.classList.add('active');
-            
-            // GSAP tab transition
-            gsap.fromTo(targetView, {opacity: 0, y: 15}, {opacity: 1, y: 0, duration: 0.4, ease: "power2.out"});
 
-            if(tabName === 'dashboard') {
+            // GSAP tab transition
+            gsap.fromTo(targetView, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+
+            if (tabName === 'dashboard') {
                 document.getElementById('page-title').innerText = "Dashboard Overview";
                 fetchDashboardStats();
             } else if (tabName === 'bookings') {
@@ -592,10 +1102,10 @@
                     } else { previewContainer.style.display = 'none'; }
                 }
             } else { previewContainer.style.display = 'none'; }
-            
+
             const modal = document.getElementById('service-modal');
             modal.style.display = 'flex';
-            gsap.fromTo("#modal-content-anim", {scale: 0.8, opacity: 0}, {scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.5)"});
+            gsap.fromTo("#modal-content-anim", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.5)" });
         }
 
         async function saveService(e) {
@@ -621,8 +1131,8 @@
                 const response = await fetch(url, { method: id ? 'PUT' : 'POST', body: formData });
                 if (response.ok) {
                     closeServiceModal();
-                    fetchAdminServices(); 
-                    fetchServicePrices(); 
+                    fetchAdminServices();
+                    fetchServicePrices();
                 } else {
                     const errorData = await response.json().catch(() => ({ message: "Image is too large." }));
                     alert(`Save failed!\nReason: ${errorData.message}`);
@@ -634,14 +1144,16 @@
             }
         }
 
-        function closeServiceModal() { 
-            gsap.to("#modal-content-anim", {scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
-                document.getElementById('service-modal').style.display = 'none'; 
-            }});
+        function closeServiceModal() {
+            gsap.to("#modal-content-anim", {
+                scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
+                    document.getElementById('service-modal').style.display = 'none';
+                }
+            });
         }
 
         async function deleteService(id) {
-            if(confirm("Are you sure you want to completely delete this service?")) {
+            if (confirm("Are you sure you want to completely delete this service?")) {
                 try {
                     await fetch(`${API_BASE_URL}/services/${id}`, { method: 'DELETE' });
                     fetchAdminServices();
@@ -657,12 +1169,12 @@
                     fetch(`${API_BASE_URL}/services`),
                     fetch(`${API_BASE_URL}/bookings/all`)
                 ]);
-                if(servicesRes.ok) {
+                if (servicesRes.ok) {
                     const services = await servicesRes.json();
                     services.forEach(s => servicePricesMap[s.name] = s.price);
                 }
                 const bookings = await bookingsRes.json();
-                
+
                 // Animate number counter
                 gsap.to(document.getElementById('stat-total-bookings'), {
                     innerHTML: bookings.length, roundProps: "innerHTML", duration: 1.5, ease: "power2.out"
@@ -680,10 +1192,10 @@
                     const statusBg = statusText === 'Confirmed' ? 'rgba(46, 204, 113, 0.15)' : (statusText === 'Rejected' ? 'rgba(231, 76, 60, 0.15)' : 'rgba(243, 156, 18, 0.15)');
                     const price = servicePricesMap[b.service] ? `₹${servicePricesMap[b.service]}` : 'N/A';
                     const icon = statusText === 'Confirmed' ? '✅' : (statusText === 'Rejected' ? '❌' : '⏳');
-                    
+
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><small style="color:var(--text-light)">#${b._id.substring(0,6)}</small><br><strong>${b.date}</strong></td>
+                        <td><small style="color:var(--text-light)">#${b._id.substring(0, 6)}</small><br><strong>${b.date}</strong></td>
                         <td><strong>${b.name}</strong><br><small style="color:var(--text-light)">📞 ${b.phone}</small></td>
                         <td><span style="font-weight:500;">${b.service}</span><br><small>${b.time}</small></td>
                         <td style="font-weight:700; color:var(--dark-pink);">${price}</td>
@@ -707,22 +1219,22 @@
                     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">No bookings found in the database.</td></tr>';
                     return;
                 }
-               bookings.forEach(b => {
+                bookings.forEach(b => {
                     const statusText = b.status || 'Pending';
                     const statusColor = statusText === 'Confirmed' ? 'var(--success)' : (statusText === 'Rejected' ? 'var(--danger)' : 'var(--warning)');
                     const statusBg = statusText === 'Confirmed' ? 'rgba(46, 204, 113, 0.15)' : (statusText === 'Rejected' ? 'rgba(231, 76, 60, 0.15)' : 'rgba(243, 156, 18, 0.15)');
                     const icon = statusText === 'Confirmed' ? '✅' : (statusText === 'Rejected' ? '❌' : '⏳');
                     const price = servicePricesMap[b.service] ? `₹${servicePricesMap[b.service]}` : 'N/A';
-                    
+
                     let actionButtons = '';
                     if (statusText === 'Pending') {
                         actionButtons += `<button class="action-btn btn-accept" onclick="updateBookingStatus('${b._id}', 'Confirmed')">✔️ Accept</button>`;
                         actionButtons += `<button class="action-btn btn-reject" onclick="updateBookingStatus('${b._id}', 'Rejected')">❌ Reject</button>`;
-                    } 
+                    }
                     actionButtons += `<button class="action-btn btn-delete-action" onclick="deleteBooking('${b._id}')">🗑️ Delete</button>`;
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><small style="color:var(--text-light); font-family:monospace;">#${b._id.substring(0,8)}</small><br><strong style="color:var(--text-dark)">${b.date}</strong><br><small>${b.time}</small></td>
+                        <td><small style="color:var(--text-light); font-family:monospace;">#${b._id.substring(0, 8)}</small><br><strong style="color:var(--text-dark)">${b.date}</strong><br><small>${b.time}</small></td>
                         <td><strong>${b.name}</strong><br><small>📞 ${b.phone}</small><br><small style="color:var(--text-light)">📍 ${b.address || 'No address provided'}</small></td>
                         <td><span style="color:var(--text-dark); font-weight:600; padding:4px 8px; background:var(--primary-pink); border-radius:6px;">${b.service}</span></td>
                         <td style="font-weight:700; color:var(--dark-pink); font-size: 16px;">${price}</td>
@@ -731,7 +1243,7 @@
                     `;
                     tbody.appendChild(tr);
                 });
-               animateTableRows('all-bookings-table');
+                animateTableRows('all-bookings-table');
             } catch (error) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red; padding:20px;">Failed to connect to the server.</td></tr>'; }
         }
 
@@ -742,7 +1254,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ status: newStatus })
                 });
-                if (response.ok) { fetchBookings(); fetchDashboardStats(); } 
+                if (response.ok) { fetchBookings(); fetchDashboardStats(); }
                 else { alert("Failed to update."); }
             } catch (error) { alert("Server error!"); }
         }
@@ -751,14 +1263,19 @@
             if (confirm("Are you sure you want to delete this appointment?")) {
                 try {
                     const response = await fetch(`${API_BASE_URL}/bookings/${id}`, { method: 'DELETE' });
-                    if (response.ok) { fetchBookings(); fetchDashboardStats(); } 
+                    if (response.ok) { fetchBookings(); fetchDashboardStats(); }
                     else { alert("Failed to delete."); }
                 } catch (error) { alert("Server error!"); }
             }
         }
     </script>
     <style>
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </body>
+
 </html>

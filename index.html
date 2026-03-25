@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elegance Salon & Spa | Premium Beauty Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
-            --primary-pink: #FFF0F5; /* Lavender Blush */
+            --primary-pink: #FFF0F5;
+            /* Lavender Blush */
             --accent-pink: #F48FB1;
             --dark-pink: #D81B60;
             --light-gold: #D4AF37;
@@ -37,22 +41,43 @@
         body {
             background-color: #FAFAFA;
             background-image: radial-gradient(circle at top right, #FFF0F5 0%, transparent 40%),
-                              radial-gradient(circle at bottom left, #FFF0F5 0%, transparent 40%);
+                radial-gradient(circle at bottom left, #FFF0F5 0%, transparent 40%);
             color: var(--text-dark);
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .brand { font-family: 'Playfair Display', serif; }
+        h1,
+        h2,
+        h3,
+        .brand {
+            font-family: 'Playfair Display', serif;
+        }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--dark-pink); }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-pink);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-pink);
+        }
 
         /* --- UI/UX Components --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         .btn {
             padding: 12px 28px;
             border: none;
@@ -65,60 +90,166 @@
             overflow: hidden;
             z-index: 1;
         }
+
         .btn::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
-            background: rgba(255,255,255,0.2); transition: all 0.4s ease; z-index: -1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            z-index: -1;
         }
-        .btn:hover::before { width: 100%; }
-        
-        .btn-primary { background: var(--gradient-pink); color: var(--white); box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(216, 27, 96, 0.4); }
-        
-        .btn-gold { background: var(--gradient-gold); color: var(--text-dark); }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); }
-        
-        .btn-outline { background: transparent; border: 2px solid var(--dark-pink); color: var(--dark-pink); }
-        .btn-outline:hover { background: var(--dark-pink); color: var(--white); }
-        
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-pink);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(216, 27, 96, 0.4);
+        }
+
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: var(--text-dark);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--dark-pink);
+            color: var(--dark-pink);
+        }
+
+        .btn-outline:hover {
+            background: var(--dark-pink);
+            color: var(--white);
+        }
+
         /* --- Navigation & Sidebar --- */
-        nav { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 0; border-bottom: 1px solid rgba(216, 27, 96, 0.1); 
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(216, 27, 96, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .brand { font-size: 32px; color: var(--dark-pink); font-weight: 700; display: inline-block; letter-spacing: -0.5px;}
-        .menu-btn { 
-            background: none; border: none; font-size: 28px; color: var(--dark-pink); 
-            cursor: pointer; margin-right: 15px; display: inline-block; vertical-align: middle;
+
+        .brand {
+            font-size: 32px;
+            color: var(--dark-pink);
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: -0.5px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--dark-pink);
+            cursor: pointer;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: middle;
             transition: transform 0.3s;
         }
-        .menu-btn:hover { transform: scale(1.1); }
-        
+
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+
         .sidebar {
-            height: 100%; width: 300px; position: fixed; z-index: 2000;
-            top: 0; left: -300px; background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px); box-shadow: 10px 0 30px rgba(0,0,0,0.1); 
+            height: 100%;
+            width: 300px;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: -300px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
             transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-            padding-top: 60px; display: flex; flex-direction: column; border-right: 1px solid var(--glass-border);
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--glass-border);
         }
-        .sidebar.open { left: 0; }
+
+        .sidebar.open {
+            left: 0;
+        }
+
         .sidebar a {
-            padding: 18px 30px; text-decoration: none; font-size: 16px; font-weight: 500;
-            color: var(--text-dark); display: flex; align-items: center; gap: 10px;
-            transition: 0.3s; border-left: 4px solid transparent; position: relative;
+            padding: 18px 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+            position: relative;
         }
+
         .sidebar a::after {
-            content: ''; position: absolute; bottom: 0; left: 10%; width: 80%; height: 1px; background: #eee;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: #eee;
         }
-        .sidebar a:hover { background-color: var(--primary-pink); color: var(--dark-pink); border-left: 4px solid var(--dark-pink); padding-left: 35px;}
-        .sidebar .close-btn { position: absolute; top: 15px; right: 20px; font-size: 35px; background: none; border: none; cursor: pointer; color: var(--text-light); transition: 0.3s;}
-        .sidebar .close-btn:hover { color: var(--dark-pink); transform: rotate(90deg); }
-        
+
+        .sidebar a:hover {
+            background-color: var(--primary-pink);
+            color: var(--dark-pink);
+            border-left: 4px solid var(--dark-pink);
+            padding-left: 35px;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 35px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: 0.3s;
+        }
+
+        .sidebar .close-btn:hover {
+            color: var(--dark-pink);
+            transform: rotate(90deg);
+        }
+
         /* --- Hero / Banner --- */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, var(--primary-pink) 0%, rgba(255,255,255,0.9) 100%);
+            background: linear-gradient(135deg, var(--primary-pink) 0%, rgba(255, 255, 255, 0.9) 100%);
             padding: 80px 0 100px;
             text-align: center;
             border-radius: 0 0 50px 50px;
@@ -126,297 +257,1077 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(216, 27, 96, 0.05);
         }
+
         .hero::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(244,143,177,0.1) 0%, transparent 60%);
-            animation: rotateBg 20s linear infinite; z-index: 0;
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 143, 177, 0.1) 0%, transparent 60%);
+            animation: rotateBg 20s linear infinite;
+            z-index: 0;
         }
-        @keyframes rotateBg { 100% { transform: rotate(360deg); } }
-        
-        .hero .container { position: relative; z-index: 1; }
-        .hero h1 { font-size: 56px; color: var(--dark-pink); margin-bottom: 20px; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
-        .hero h1 span { color: var(--light-gold); font-style: italic; }
-        .hero p { font-size: 20px; color: var(--text-light); margin-bottom: 40px; max-width: 600px; margin-inline: auto; }
-        
-        .smart-badges { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; perspective: 1000px; }
-        .badge { 
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-            padding: 12px 20px; border-radius: 30px; box-shadow: var(--shadow-soft); 
-            font-size: 15px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--glass-border);
+
+        @keyframes rotateBg {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero h1 span {
+            color: var(--light-gold);
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-inline: auto;
+        }
+
+        .smart-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            perspective: 1000px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--glass-border);
             transition: transform 0.3s;
         }
-        .badge:hover { transform: translateY(-5px) rotateX(10deg); border-color: var(--accent-pink); }
-        
-        /* --- Mood Based Booking --- */
-        .mood-section { text-align: center; margin-bottom: 50px; }
-        .mood-filters { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
-        .mood-btn { 
-            padding: 12px 30px; border: 2px solid #eee; background: var(--white); 
-            border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 500; font-size: 16px;
+
+        .badge:hover {
+            transform: translateY(-5px) rotateX(10deg);
+            border-color: var(--accent-pink);
         }
-        .mood-btn.active, .mood-btn:hover { 
-            background: var(--gradient-pink); border-color: transparent; color: var(--white); 
-            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.2); transform: translateY(-2px);
+
+        /* --- Mood Based Booking --- */
+        .mood-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .mood-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            padding: 12px 30px;
+            border: 2px solid #eee;
+            background: var(--white);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .mood-btn.active,
+        .mood-btn:hover {
+            background: var(--gradient-pink);
+            border-color: transparent;
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.2);
+            transform: translateY(-2px);
         }
 
         /* --- Services Grid --- */
-        .section-title { text-align: center; font-size: 36px; margin-bottom: 40px; color: var(--text-dark); position: relative; }
-        .section-title::after {
-            content: ''; display: block; width: 60px; height: 3px; background: var(--light-gold);
-            margin: 15px auto 0; border-radius: 3px;
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: var(--text-dark);
+            position: relative;
         }
-        
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-bottom: 60px; }
-        
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--light-gold);
+            margin: 15px auto 0;
+            border-radius: 3px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
         .service-card {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 24px;
-            padding: 0; 
+            padding: 0;
             box-shadow: var(--shadow-soft);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
         }
-        .service-card:hover { transform: translateY(-15px); box-shadow: var(--shadow-hover); }
-        
-        .service-image-container { position: relative; overflow: hidden; height: 240px; }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 240px;
+        }
+
         .service-image {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: transform 0.6s ease;
         }
-        .service-card:hover .service-image { transform: scale(1.1); }
-        .service-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
-            opacity: 0; transition: 0.3s;
+
+        .service-card:hover .service-image {
+            transform: scale(1.1);
         }
-        .service-card:hover .service-overlay { opacity: 1; }
+
+        .service-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .service-card:hover .service-overlay {
+            opacity: 1;
+        }
 
         .service-content {
-            padding: 25px 30px; flex-grow: 1; display: flex; flex-direction: column;
-            background: var(--white); position: relative; z-index: 1;
+            padding: 25px 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            position: relative;
+            z-index: 1;
             border-radius: 0 0 24px 24px;
         }
-        
-        .service-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .service-name { font-size: 22px; font-weight: 700; color: var(--dark-pink); font-family: 'Playfair Display', serif; line-height: 1.2;}
-        .service-price { font-size: 24px; font-weight: 700; color: var(--light-gold); background: rgba(212, 175, 55, 0.1); padding: 5px 15px; border-radius: 20px;}
-        .service-details { color: var(--text-light); font-size: 14px; margin-bottom: 20px; background: #F8F9FA; padding: 10px 15px; border-radius: 12px; display: inline-flex; gap: 10px; align-items: center;}
-        
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .service-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-pink);
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+        }
+
+        .service-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--light-gold);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .service-details {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 20px;
+            background: #F8F9FA;
+            padding: 10px 15px;
+            border-radius: 12px;
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+        }
+
         /* --- Extras Section --- */
-        .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 70px; }
-        .extra-card { 
-            background: var(--primary-pink); padding: 35px; border-radius: 24px; 
-            position: relative; overflow: hidden; z-index: 1;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+        .extras-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 70px;
+        }
+
+        .extra-card {
+            background: var(--primary-pink);
+            padding: 35px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
             transition: transform 0.3s;
         }
-        .extra-card:hover { transform: translateY(-5px); }
-        .extra-card::before {
-            content: '🌸'; position: absolute; right: -20px; bottom: -30px; font-size: 150px; opacity: 0.1; z-index: -1;
+
+        .extra-card:hover {
+            transform: translateY(-5px);
         }
-        .extra-card h3 { color: var(--dark-pink); margin-bottom: 20px; font-size: 24px; }
-        .extra-card ul li { margin-bottom: 10px; position: relative; list-style: none; padding-left: 25px; }
-        .extra-card ul li::before { content: '✨'; position: absolute; left: 0; top: 0; font-size: 14px; }
+
+        .extra-card::before {
+            content: '🌸';
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            font-size: 150px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .extra-card h3 {
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .extra-card ul li {
+            margin-bottom: 10px;
+            position: relative;
+            list-style: none;
+            padding-left: 25px;
+        }
+
+        .extra-card ul li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 14px;
+        }
 
         /* --- Modals (Booking & Login) --- */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 3000;
-            opacity: 0; transition: opacity 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .modal-overlay.active { opacity: 1; }
-        
+
+        .modal-overlay.active {
+            opacity: 1;
+        }
+
         .modal {
-            background: var(--white); padding: 40px; border-radius: 24px; width: 90%; max-width: 550px;
-            max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-            transform: scale(0.95) translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
-        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
-        
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-dark); font-size: 15px;}
-        .form-control { 
-            width: 100%; padding: 14px 18px; border: 2px solid #eee; border-radius: 12px; 
-            font-size: 16px; transition: 0.3s; background: #FCFCFC;
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
         }
-        .form-control:focus { border-color: var(--accent-pink); background: var(--white); outline: none; box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.1); }
-        
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+            background: #FCFCFC;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-pink);
+            background: var(--white);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.1);
+        }
+
         /* --- Smart Slots --- */
-        .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 15px; }
-        .slot {
-            padding: 12px; text-align: center; border-radius: 10px; border: 2px solid #eee;
-            cursor: pointer; transition: all 0.2s; font-size: 14px; font-weight: 500;
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
         }
-        .slot.available { background: var(--white); border-color: #E8F5E9; color: var(--success); }
-        .slot.available:hover { background: var(--success); color: var(--white); border-color: var(--success); }
-        .slot.available.selected { background: var(--success); color: var(--white); border-color: var(--success); transform: scale(1.05); box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);}
-        .slot.full { background: #F5F5F5; border-color: #ffebee; color: var(--danger); cursor: not-allowed; opacity: 0.7; }
-        
-        .payment-note { background: var(--primary-pink); padding: 18px; border-radius: 12px; margin: 25px 0; text-align: center; color: var(--dark-pink); font-weight: 600; border: 1px dashed var(--accent-pink);}
-        
+
+        .slot {
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .slot.available {
+            background: var(--white);
+            border-color: #E8F5E9;
+            color: var(--success);
+        }
+
+        .slot.available:hover {
+            background: var(--success);
+            color: var(--white);
+            border-color: var(--success);
+        }
+
+        .slot.available.selected {
+            background: var(--success);
+            color: var(--white);
+            border-color: var(--success);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .slot.full {
+            background: #F5F5F5;
+            border-color: #ffebee;
+            color: var(--danger);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .payment-note {
+            background: var(--primary-pink);
+            padding: 18px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            color: var(--dark-pink);
+            font-weight: 600;
+            border: 1px dashed var(--accent-pink);
+        }
+
         /* --- Admin Panel & Dashboard --- */
-        #admin-panel { display: none; background: #fff; padding: 60px 0; min-height: 80vh;}
-        table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--white); margin-top: 20px; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-soft); }
-        th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: var(--gradient-pink); color: var(--white); font-weight: 600; letter-spacing: 0.5px; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #fafafa; }
+        #admin-panel {
+            display: none;
+            background: #fff;
+            padding: 60px 0;
+            min-height: 80vh;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--white);
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        th,
+        td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: var(--gradient-pink);
+            color: var(--white);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
 
         /* --- My Bookings View --- */
-        #my-bookings-view { display: none; padding: 60px 0; min-height: 70vh; }
+        #my-bookings-view {
+            display: none;
+            padding: 60px 0;
+            min-height: 70vh;
+        }
+
         .compact-booking-card {
-            background: var(--white); border-radius: 16px; padding: 20px 25px; margin-bottom: 20px;
-            box-shadow: var(--shadow-soft); display: flex; justify-content: space-between; align-items: center;
-            border-left: 6px solid var(--dark-pink); transition: all 0.3s ease;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid var(--dark-pink);
+            transition: all 0.3s ease;
         }
-        .compact-booking-card:hover { transform: translateX(5px); box-shadow: var(--shadow-hover); }
-        .compact-info h4 { margin: 0; color: var(--text-dark); font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px;}
-        .compact-info p { margin: 4px 0 0; font-size: 14px; color: var(--text-light); }
-        
+
+        .compact-booking-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .compact-info h4 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .compact-info p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
         .btn-view-bill {
-            background: var(--primary-pink); color: var(--dark-pink); border: none;
-            padding: 10px 20px; border-radius: 50px; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+            background: var(--primary-pink);
+            color: var(--dark-pink);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .btn-view-bill:hover { background: var(--dark-pink); color: var(--white); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(216,27,96,0.2);}
+
+        .btn-view-bill:hover {
+            background: var(--dark-pink);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2);
+        }
 
         /* --- Premium Digital Bill/Invoice Modal --- */
         .premium-bill-card {
-            background: var(--white); border-radius: 20px; overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3); width: 100%; max-width: 450px; position: relative;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
         }
-        .bill-header { color: var(--white); padding: 25px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .bill-header h3 { margin: 0; font-size: 20px; }
-        .bill-status-badge { padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: 700; text-transform: uppercase; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .bill-body { padding: 30px; background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10h80v80h-80z" fill="none" stroke="%23FFF0F5" stroke-width="1" stroke-dasharray="2 2"/></svg>') repeat; }
-        .bill-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; color: var(--text-light); }
-        .bill-row strong { color: var(--text-dark); font-weight: 600; }
-        .bill-divider { border-top: 2px dashed #ddd; margin: 25px 0; position: relative; }
-        .bill-divider::before, .bill-divider::after { content: ''; position: absolute; top: -12px; width: 24px; height: 24px; background: rgba(0,0,0,0.6); border-radius: 50%; }
-        .bill-divider::before { left: -42px; }
-        .bill-divider::after { right: -42px; }
-        .bill-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .bill-item-name { font-size: 18px; color: var(--text-dark); font-weight: 600; }
-        .bill-item-price { font-size: 18px; color: var(--text-dark); font-weight: 600; }
-        .bill-total-row { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 2px solid #eee; }
-        .bill-total-label { font-size: 15px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; font-weight: 600;}
-        .bill-total-amount { font-size: 28px; font-weight: 700; color: var(--dark-pink); font-family: 'Playfair Display', serif; }
-        .bill-footer { background: var(--primary-pink); padding: 20px; text-align: center; font-size: 13px; color: var(--text-light); border-top: 1px solid rgba(216,27,96,0.1);}
+
+        .bill-header {
+            color: var(--white);
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bill-header h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .bill-status-badge {
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .bill-body {
+            padding: 30px;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10h80v80h-80z" fill="none" stroke="%23FFF0F5" stroke-width="1" stroke-dasharray="2 2"/></svg>') repeat;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        .bill-row strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .bill-divider {
+            border-top: 2px dashed #ddd;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .bill-divider::before,
+        .bill-divider::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+        }
+
+        .bill-divider::before {
+            left: -42px;
+        }
+
+        .bill-divider::after {
+            right: -42px;
+        }
+
+        .bill-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .bill-item-name {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .bill-item-price {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .bill-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .bill-total-label {
+            font-size: 15px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .bill-total-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-pink);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .bill-footer {
+            background: var(--primary-pink);
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-light);
+            border-top: 1px solid rgba(216, 27, 96, 0.1);
+        }
 
         /* --- Glassmorphism Auth Modal --- */
         .glass-modal {
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border-radius: 24px; padding: 40px; width: 90%; max-width: 420px; position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
         }
-        .auth-toggle { display: flex; background: #f0f0f0; border-radius: 50px; margin-bottom: 30px; padding: 5px; }
-        .auth-toggle button { flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 50px; font-weight: 600; color: var(--text-light); transition: all 0.3s; }
-        .auth-toggle button.active { background: var(--white); color: var(--dark-pink); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; animation: fadeIn 0.4s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .glass-input { width: 100%; padding: 14px 20px; margin-bottom: 18px; background: rgba(255, 255, 255, 0.9); border: 2px solid #eee; border-radius: 12px; outline: none; font-size: 15px; transition: 0.3s; }
-        .glass-input:focus { border-color: var(--dark-pink); background: var(--white); box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.1); }
-        .error-msg { color: var(--danger); font-size: 13px; margin-top: -10px; margin-bottom: 15px; display: none; text-align: left; }
+
+        .auth-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            padding: 5px;
+        }
+
+        .auth-toggle button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        .auth-toggle button.active {
+            background: var(--white);
+            color: var(--dark-pink);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 14px 20px;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #eee;
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .glass-input:focus {
+            border-color: var(--dark-pink);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.1);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            display: none;
+            text-align: left;
+        }
 
         /* --- Stylish Toast Notifications --- */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .toast {
-            background: var(--white); border-left: 6px solid var(--dark-pink); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 16px 24px; border-radius: 12px; display: flex; align-items: center; gap: 15px;
-            font-size: 15px; font-weight: 500; color: var(--text-dark); transform: translateX(120%); opacity: 0;
+            background: var(--white);
+            border-left: 6px solid var(--dark-pink);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 16px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transform: translateX(120%);
+            opacity: 0;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .toast.show { transform: translateX(0); opacity: 1; }
-        .toast.hide { transform: translateX(120%); opacity: 0; }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--light-gold); }
-        .toast-icon { font-size: 24px; }
-        
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.hide {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--light-gold);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
         /* --- Stunning Footer --- */
         .premium-footer {
-            background: #1A1115; color: #fff; padding: 70px 0 30px; position: relative; overflow: hidden;
+            background: #1A1115;
+            color: #fff;
+            padding: 70px 0 30px;
+            position: relative;
+            overflow: hidden;
             margin-top: 40px;
         }
+
         .premium-footer::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
             background: var(--gradient-pink);
         }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 50px; }
-        .footer-brand { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--light-gold); margin-bottom: 15px; display: block;}
-        .footer-text { color: #a09a9d; font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
-        .social-links { display: flex; gap: 15px; }
-        .social-link { 
-            width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); 
-            display: flex; justify-content: center; align-items: center; color: #fff; text-decoration: none;
-            transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1);
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 50px;
         }
-        .social-link:hover { background: var(--dark-pink); color: #fff; transform: translateY(-3px); border-color: var(--dark-pink);}
-        
-        .footer-heading { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; margin-bottom: 25px; position: relative; padding-bottom: 10px;}
-        .footer-heading::after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 2px; background: var(--light-gold); }
-        
-        .footer-links { list-style: none; padding: 0; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: #a09a9d; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;}
-        .footer-links a:hover { color: var(--accent-pink); transform: translateX(5px); }
-        
-        .footer-contact li { display: flex; gap: 15px; margin-bottom: 15px; color: #a09a9d; font-size: 14px; align-items: flex-start;}
-        .footer-contact i { color: var(--light-gold); font-size: 18px; margin-top: 3px;}
-        
-        .newsletter-form { display: flex; gap: 10px; margin-top: 15px; }
-        .newsletter-input { flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; outline: none; transition: 0.3s;}
-        .newsletter-input:focus { border-color: var(--accent-pink); background: rgba(255,255,255,0.1);}
-        .newsletter-btn { background: var(--gradient-pink); color: #fff; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s;}
-        .newsletter-btn:hover { box-shadow: 0 0 15px rgba(216,27,96,0.4); }
-        
-        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #7a7376; font-size: 14px; display: flex; justify-content: space-between; align-items: center;}
-        
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--light-gold);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-text {
+            color: #a09a9d;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link:hover {
+            background: var(--dark-pink);
+            color: #fff;
+            transform: translateY(-3px);
+            border-color: var(--dark-pink);
+        }
+
+        .footer-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--light-gold);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #a09a9d;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-pink);
+            transform: translateX(5px);
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #a09a9d;
+            font-size: 14px;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: var(--light-gold);
+            font-size: 18px;
+            margin-top: 3px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--accent-pink);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-btn {
+            background: var(--gradient-pink);
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            box-shadow: 0 0 15px rgba(216, 27, 96, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #7a7376;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
+
         @media (max-width: 768px) {
-            .hero h1 { font-size: 40px; }
-            .extras-grid, .footer-grid { grid-template-columns: 1fr; gap: 30px;}
-            .slots-grid { grid-template-columns: repeat(3, 1fr); }
-            .toast-container { top: auto; bottom: 20px; right: 50%; transform: translateX(50%); width: 90%; }
-            .toast { transform: translateY(120%); }
-            .toast.show { transform: translateY(0); }
-            .toast.hide { transform: translateY(120%); }
-            .compact-booking-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .btn-view-bill { width: 100%; justify-content: center; }
-            .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .extras-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .slots-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .toast-container {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+                width: 90%;
+            }
+
+            .toast {
+                transform: translateY(120%);
+            }
+
+            .toast.show {
+                transform: translateY(0);
+            }
+
+            .toast.hide {
+                transform: translateY(120%);
+            }
+
+            .compact-booking-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .btn-view-bill {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
         }
+
         @media (max-width: 480px) {
-    .hero h1 { font-size: 32px; }
-    .slots-grid { grid-template-columns: repeat(2, 1fr); }
-    .modal { padding: 25px 20px; }
-    .smart-badges { flex-direction: column; align-items: stretch; }
-    .badge { justify-content: center; }
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .slots-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal {
+                padding: 25px 20px;
+            }
+
+            .smart-badges {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .badge {
+                justify-content: center;
+            }
         }
-        .brand { font-size: 24px !important; } /* Scales down logo slightly */
-    #nav-user-status {
-        font-size: 12px !important;
-        padding: 6px 12px !important;
-        max-width: 140px; /* Limits the width */
-        display: inline-block;
-        white-space: nowrap; /* Prevents text from going to the next line */
-        overflow: hidden; 
-        text-overflow: ellipsis; /* Adds the ... */
-        vertical-align: bottom;
-    }
+
+        .brand {
+            font-size: 24px !important;
+        }
+
+        /* Scales down logo slightly */
+        #nav-user-status {
+            font-size: 12px !important;
+            padding: 6px 12px !important;
+            max-width: 140px;
+            /* Limits the width */
+            display: inline-block;
+            white-space: nowrap;
+            /* Prevents text from going to the next line */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* Adds the ... */
+            vertical-align: bottom;
+        }
 
         /* --- Stunning Blog & Gallery Section --- */
-        #blog-view { display: none; padding-top: 40px; padding-bottom: 80px; min-height: 80vh; }
-        
+        #blog-view {
+            display: none;
+            padding-top: 40px;
+            padding-bottom: 80px;
+            min-height: 80vh;
+        }
+
         .blog-hero {
             background: linear-gradient(to right, rgba(216, 27, 96, 0.8), rgba(244, 143, 177, 0.4)), url('https://images.unsplash.com/photo-1521590832167-7bfcbaa6362d?w=1200&q=80') center/cover;
             border-radius: 30px;
@@ -428,16 +1339,23 @@
             position: relative;
             overflow: hidden;
         }
+
         .blog-hero::after {
-            content: '✨'; position: absolute; font-size: 100px; opacity: 0.1; right: 5%; bottom: -10%; transform: rotate(15deg);
+            content: '✨';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            right: 5%;
+            bottom: -10%;
+            transform: rotate(15deg);
         }
-        
+
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
         }
-        
+
         .blog-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(15px);
@@ -449,12 +1367,13 @@
             position: relative;
             cursor: pointer;
         }
+
         .blog-card:hover {
             transform: translateY(-15px) scale(1.02);
             box-shadow: var(--shadow-hover);
             border-color: var(--accent-pink);
         }
-        
+
         .blog-img-wrapper {
             position: relative;
             height: 250px;
@@ -462,17 +1381,22 @@
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
             transition: clip-path 0.5s;
         }
+
         .blog-card:hover .blog-img-wrapper {
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
+
         .blog-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.8s ease;
         }
-        .blog-card:hover .blog-img { transform: scale(1.15) rotate(-2deg); }
-        
+
+        .blog-card:hover .blog-img {
+            transform: scale(1.15) rotate(-2deg);
+        }
+
         .blog-date-badge {
             position: absolute;
             top: 20px;
@@ -483,22 +1407,77 @@
             border-radius: 30px;
             font-size: 13px;
             font-weight: 700;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             z-index: 2;
         }
-        
-        .blog-content { padding: 25px 30px; }
-        .blog-category { color: var(--light-gold); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
-        .blog-title { color: var(--dark-pink); font-size: 22px; font-family: 'Playfair Display', serif; margin-bottom: 15px; line-height: 1.3; }
-        .blog-excerpt { color: var(--text-light); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
-        
-        .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
-        .blog-author { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text-dark); }
-        .blog-author img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
-        .blog-read-more { color: var(--accent-pink); font-size: 14px; font-weight: 600; text-decoration: none; transition: 0.3s; }
-        .blog-card:hover .blog-read-more { color: var(--dark-pink); }
+
+        .blog-content {
+            padding: 25px 30px;
+        }
+
+        .blog-category {
+            color: var(--light-gold);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .blog-title {
+            color: var(--dark-pink);
+            font-size: 22px;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .blog-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .blog-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .blog-author img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .blog-read-more {
+            color: var(--accent-pink);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .blog-card:hover .blog-read-more {
+            color: var(--dark-pink);
+        }
     </style>
 </head>
+
 <body>
 
     <div id="toast-container" class="toast-container"></div>
@@ -510,12 +1489,16 @@
         </div>
         <div class="sidebar-links">
             <a href="#" onclick="showView('home')"><i class="fas fa-home" style="width: 25px;"></i> Home / Services</a>
-            <a href="#" onclick="showView('my-bookings')"><i class="fas fa-calendar-alt" style="width: 25px;"></i> My Bookings</a>
-            <a href="#" onclick="showView('blog')"><i class="fas fa-book-reader" style="width: 25px; color: var(--accent-pink);"></i> Beauty Blog</a>
-            <a href="#" id="sidebar-login-btn" onclick="openLoginModal()"><i class="fas fa-user-circle" style="width: 25px;"></i> Login</a>
+            <a href="#" onclick="showView('my-bookings')"><i class="fas fa-calendar-alt" style="width: 25px;"></i> My
+                Bookings</a>
+            <a href="#" onclick="showView('blog')"><i class="fas fa-book-reader"
+                    style="width: 25px; color: var(--accent-pink);"></i> Beauty Blog</a>
+            <a href="#" id="sidebar-login-btn" onclick="openLoginModal()"><i class="fas fa-user-circle"
+                    style="width: 25px;"></i> Login</a>
         </div>
         <div style="margin-top: auto; border-top: 1px solid #eee; padding: 20px 0;">
-            <a href="admin.html" style="color: var(--text-light);"><i class="fas fa-lock" style="width: 25px;"></i> Admin Panel</a>
+            <a href="admin.html" style="color: var(--text-light);"><i class="fas fa-lock" style="width: 25px;"></i>
+                Admin Panel</a>
         </div>
     </div>
 
@@ -526,7 +1509,8 @@
                 <div class="brand">✨ Elegance</div>
             </div>
             <div>
-                <span id="nav-user-status" style="color:var(--dark-pink); font-weight:600; font-size: 15px; background: var(--primary-pink); padding: 8px 16px; border-radius: 30px; border: 1px solid var(--accent-pink);">
+                <span id="nav-user-status"
+                    style="color:var(--dark-pink); font-weight:600; font-size: 15px; background: var(--primary-pink); padding: 8px 16px; border-radius: 30px; border: 1px solid var(--accent-pink);">
                     <i class="fas fa-phone-alt"></i> 1800-BEAUTY
                 </span>
             </div>
@@ -537,19 +1521,25 @@
         <section class="hero gsap-hero">
             <div class="container">
                 <h1 class="gsap-hero-item">Discover Your <span>True Glow</span></h1>
-                <p class="gsap-hero-item">Premium salon & spa services tailored specifically for your unique beauty needs. Step in and let us pamper you.</p>
-                
+                <p class="gsap-hero-item">Premium salon & spa services tailored specifically for your unique beauty
+                    needs. Step in and let us pamper you.</p>
+
                 <div class="smart-badges gsap-hero-item">
-                    <div class="badge"><i class="fas fa-gift" style="color: var(--dark-pink);"></i> <strong>Today's Offer:</strong> Facial ₹600 <span style="text-decoration: line-through; color: #999; margin-left: 5px;">₹800</span></div>
-                    <div class="badge"><i class="fas fa-clock" style="color: var(--light-gold);"></i> <strong>Best Time:</strong> Less crowd 2 PM - 4 PM</div>
-                    <div class="badge"><i class="fas fa-sparkles" style="color: var(--accent-pink);"></i> <strong>Festival:</strong> Wedding Season Active</div>
+                    <div class="badge"><i class="fas fa-gift" style="color: var(--dark-pink);"></i> <strong>Today's
+                            Offer:</strong> Facial ₹600 <span
+                            style="text-decoration: line-through; color: #999; margin-left: 5px;">₹800</span></div>
+                    <div class="badge"><i class="fas fa-clock" style="color: var(--light-gold);"></i> <strong>Best
+                            Time:</strong> Less crowd 2 PM - 4 PM</div>
+                    <div class="badge"><i class="fas fa-sparkles" style="color: var(--accent-pink);"></i>
+                        <strong>Festival:</strong> Wedding Season Active</div>
                 </div>
             </div>
         </section>
 
         <div class="container">
             <div class="mood-section gsap-fade-up">
-                <h3 style="color: var(--text-dark); font-size: 22px; margin-bottom: 10px;">How are you feeling today?</h3>
+                <h3 style="color: var(--text-dark); font-size: 22px; margin-bottom: 10px;">How are you feeling today?
+                </h3>
                 <p style="color: var(--text-light); font-size: 15px;">( Mood Based Booking )</p>
                 <div class="mood-filters" id="mood-filters">
                     <button class="mood-btn active" onclick="filterServices('All')">All Services</button>
@@ -561,16 +1551,21 @@
 
             <h2 class="section-title gsap-fade-up">Our Premium Services</h2>
             <div class="services-grid" id="services-container">
-                </div>
+            </div>
 
             <div class="extras-grid gsap-fade-up">
                 <div class="extra-card">
-                    <h3 style="color: var(--dark-pink); margin-bottom: 15px;"><i class="fas fa-leaf"></i> Daily Beauty Tips</h3>
-                    <p style="margin-bottom: 15px; color: var(--text-dark); line-height: 1.6;"><strong>Skin Care:</strong> Always apply sunscreen, even indoors. Hydration is the absolute key to naturally glowing skin!</p>
-                    <p style="color: var(--text-dark); line-height: 1.6;"><strong>Hair Care:</strong> Avoid washing your hair every day to maintain natural essential oils. Get a trim every 6-8 weeks.</p>
+                    <h3 style="color: var(--dark-pink); margin-bottom: 15px;"><i class="fas fa-leaf"></i> Daily Beauty
+                        Tips</h3>
+                    <p style="margin-bottom: 15px; color: var(--text-dark); line-height: 1.6;"><strong>Skin
+                            Care:</strong> Always apply sunscreen, even indoors. Hydration is the absolute key to
+                        naturally glowing skin!</p>
+                    <p style="color: var(--text-dark); line-height: 1.6;"><strong>Hair Care:</strong> Avoid washing your
+                        hair every day to maintain natural essential oils. Get a trim every 6-8 weeks.</p>
                 </div>
                 <div class="extra-card">
-                    <h3 style="color: var(--dark-pink); margin-bottom: 15px;"><i class="fas fa-crown"></i> Why Choose Us?</h3>
+                    <h3 style="color: var(--dark-pink); margin-bottom: 15px;"><i class="fas fa-crown"></i> Why Choose
+                        Us?</h3>
                     <ul style="color: var(--text-dark); line-height: 1.8; font-weight: 500;">
                         <li>Expert, Certified Stylists</li>
                         <li>100% Premium Branded Products</li>
@@ -585,19 +1580,23 @@
     <div id="my-bookings-view">
         <div class="container">
             <h2 class="section-title" style="text-align: left;">My Bookings</h2>
-            <p id="my-bookings-subtitle" style="color: var(--text-light); margin-bottom: 30px; font-size: 16px; background: var(--white); padding: 10px 20px; border-radius: 10px; display: inline-block; box-shadow: var(--shadow-soft);"></p>
+            <p id="my-bookings-subtitle"
+                style="color: var(--text-light); margin-bottom: 30px; font-size: 16px; background: var(--white); padding: 10px 20px; border-radius: 10px; display: inline-block; box-shadow: var(--shadow-soft);">
+            </p>
             <div id="user-bookings-container">
-                </div>
+            </div>
         </div>
     </div>
 
     <div id="admin-panel">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2 style="color: var(--dark-pink); font-size: 32px;"><i class="fas fa-chart-line"></i> Admin Dashboard</h2>
-                <button class="btn btn-outline" onclick="showView('home')"><i class="fas fa-sign-out-alt"></i> Exit Admin</button>
+                <h2 style="color: var(--dark-pink); font-size: 32px;"><i class="fas fa-chart-line"></i> Admin Dashboard
+                </h2>
+                <button class="btn btn-outline" onclick="showView('home')"><i class="fas fa-sign-out-alt"></i> Exit
+                    Admin</button>
             </div>
-            
+
             <div style="background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow-soft);">
                 <h3 style="margin-bottom: 20px; color: var(--text-dark);">Manage Recent Bookings</h3>
                 <div style="overflow-x: auto;">
@@ -613,75 +1612,83 @@
                             </tr>
                         </thead>
                         <tbody id="admin-bookings-table">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-<div class="modal-overlay" id="login-modal">
-    <div class="glass-modal">
-        <button onclick="closeLoginModal()" style="position:absolute; top:15px; right:20px; background:none; border:none; font-size:32px; cursor:pointer; color:var(--dark-pink); transition: 0.3s;" onmouseover="this.style.transform='rotate(90deg)'" onmouseout="this.style.transform='none'">&times;</button>
-        
-        <div style="text-align:center; margin-bottom: 25px;">
-            <i class="fas fa-gem" style="font-size: 30px; color: var(--light-gold); margin-bottom: 10px;"></i>
-            <h2 style="color: var(--dark-pink); font-family: 'Playfair Display', serif;">Welcome to Elegance</h2>
-        </div>
-        
-        <div class="auth-toggle">
-            <button class="active" id="btn-login" onclick="toggleAuth('login')">Sign In</button>
-            <button id="btn-register" onclick="toggleAuth('register')">Sign Up</button>
-        </div>
+    <div class="modal-overlay" id="login-modal">
+        <div class="glass-modal">
+            <button onclick="closeLoginModal()"
+                style="position:absolute; top:15px; right:20px; background:none; border:none; font-size:32px; cursor:pointer; color:var(--dark-pink); transition: 0.3s;"
+                onmouseover="this.style.transform='rotate(90deg)'"
+                onmouseout="this.style.transform='none'">&times;</button>
 
-        <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
-            <div id="g_id_onload"
-                 data-client_id="322997860332-p6g82li62crt2b7nmpe5sf1k2cd11e0v.apps.googleusercontent.com"
-                 data-context="signin"
-                 data-ux_mode="popup"
-                 data-callback="handleGoogleLogin"
-                 data-auto_prompt="false">
+            <div style="text-align:center; margin-bottom: 25px;">
+                <i class="fas fa-gem" style="font-size: 30px; color: var(--light-gold); margin-bottom: 10px;"></i>
+                <h2 style="color: var(--dark-pink); font-family: 'Playfair Display', serif;">Welcome to Elegance</h2>
             </div>
 
-            <div class="g_id_signin"
-                 data-type="standard"
-                 data-shape="rectangular"
-                 data-theme="outline"
-                 data-text="signin_with"
-                 data-size="large"
-                 data-logo_alignment="left"
-                 style="display: flex; justify-content: center; margin-bottom: 15px;">
+            <div class="auth-toggle">
+                <button class="active" id="btn-login" onclick="toggleAuth('login')">Sign In</button>
+                <button id="btn-register" onclick="toggleAuth('register')">Sign Up</button>
             </div>
 
-            <div style="text-align: center; color: var(--text-light); margin: 15px 0; font-size: 14px;">OR</div>
+            <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
+                <div id="g_id_onload"
+                    data-client_id="322997860332-p6g82li62crt2b7nmpe5sf1k2cd11e0v.apps.googleusercontent.com"
+                    data-context="signin" data-ux_mode="popup" data-callback="handleGoogleLogin"
+                    data-auto_prompt="false">
+                </div>
 
-            <input type="email" id="login-email" class="glass-input" placeholder="Email Address" required>
-            <input type="password" id="login-password" class="glass-input" placeholder="Password" required>
-            <div id="login-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Invalid email or password.</div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; margin-top: 10px; font-size: 16px;">Secure Login <i class="fas fa-lock"></i></button>
-        </form>
+                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="signin_with" data-size="large" data-logo_alignment="left"
+                    style="display: flex; justify-content: center; margin-bottom: 15px;">
+                </div>
 
-        <form id="form-register" class="auth-form" onsubmit="handleRegister(event)">
-            <input type="text" id="reg-name" class="glass-input" placeholder="Full Name" required>
-            <input type="tel" id="reg-phone" class="glass-input" placeholder="Phone (e.g. 9876543210)" pattern="[0-9]{10}" required>
-            <input type="email" id="reg-email" class="glass-input" placeholder="Email Address" required>
-            <input type="password" id="reg-password" class="glass-input" placeholder="Password (Min 6 chars)" minlength="6" required>
-            <input type="password" id="reg-confirm-password" class="glass-input" placeholder="Confirm Password" required>
-            <div id="reg-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Passwords do not match.</div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; margin-top: 10px; font-size: 16px;">Create Account <i class="fas fa-user-plus"></i></button>
-        </form>
+                <div style="text-align: center; color: var(--text-light); margin: 15px 0; font-size: 14px;">OR</div>
+
+                <input type="email" id="login-email" class="glass-input" placeholder="Email Address" required>
+                <input type="password" id="login-password" class="glass-input" placeholder="Password" required>
+                <div id="login-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Invalid email or
+                    password.</div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 14px; margin-top: 10px; font-size: 16px;">Secure Login <i
+                        class="fas fa-lock"></i></button>
+            </form>
+
+            <form id="form-register" class="auth-form" onsubmit="handleRegister(event)">
+                <input type="text" id="reg-name" class="glass-input" placeholder="Full Name" required>
+                <input type="tel" id="reg-phone" class="glass-input" placeholder="Phone (e.g. 9876543210)"
+                    pattern="[0-9]{10}" required>
+                <input type="email" id="reg-email" class="glass-input" placeholder="Email Address" required>
+                <input type="password" id="reg-password" class="glass-input" placeholder="Password (Min 6 chars)"
+                    minlength="6" required>
+                <input type="password" id="reg-confirm-password" class="glass-input" placeholder="Confirm Password"
+                    required>
+                <div id="reg-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Passwords do not match.
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 14px; margin-top: 10px; font-size: 16px;">Create Account <i
+                        class="fas fa-user-plus"></i></button>
+            </form>
+        </div>
     </div>
-</div>
     <div class="modal-overlay" id="booking-modal">
         <div class="modal">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
                 <h2 style="color: var(--dark-pink); font-size: 24px;" id="modal-service-name">Book Service</h2>
-                <button onclick="closeModal()" style="background:none; border:none; font-size:30px; cursor:pointer; color: #999; transition: 0.3s;" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='#999'">&times;</button>
+                <button onclick="closeModal()"
+                    style="background:none; border:none; font-size:30px; cursor:pointer; color: #999; transition: 0.3s;"
+                    onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='#999'">&times;</button>
             </div>
-            
+
             <div id="booking-step-1">
                 <input type="hidden" id="selected-service">
                 <input type="hidden" id="selected-duration">
-                
+
                 <div class="form-group">
                     <label><i class="fas fa-calendar-day" style="color: var(--accent-pink);"></i> Select Date</label>
                     <input type="date" class="form-control" id="booking-date" onchange="loadSlots()">
@@ -689,12 +1696,15 @@
 
                 <div class="form-group">
                     <label><i class="fas fa-clock" style="color: var(--accent-pink);"></i> Select Time Slot</label>
-                    <div style="font-size: 13px; color: var(--text-light); margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 8px; display: inline-block;">
-                        <span style="color:var(--success); font-weight:600;"><i class="fas fa-circle"></i> Available</span> &nbsp;|&nbsp; 
+                    <div
+                        style="font-size: 13px; color: var(--text-light); margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 8px; display: inline-block;">
+                        <span style="color:var(--success); font-weight:600;"><i class="fas fa-circle"></i>
+                            Available</span> &nbsp;|&nbsp;
                         <span style="color:var(--danger); font-weight:600;"><i class="fas fa-circle"></i> Full</span>
                     </div>
                     <div class="slots-grid" id="slots-container">
-                        <p style="color: var(--text-light); font-style: italic; padding: 10px 0;">Please select a date first.</p>
+                        <p style="color: var(--text-light); font-style: italic; padding: 10px 0;">Please select a date
+                            first.</p>
                     </div>
                 </div>
 
@@ -702,34 +1712,41 @@
                     <label><i class="fas fa-user" style="color: var(--accent-pink);"></i> Your Name</label>
                     <input type="text" class="form-control" id="customer-name" placeholder="Enter your full name">
                 </div>
-                
+
                 <div class="form-group">
                     <label><i class="fas fa-phone" style="color: var(--accent-pink);"></i> Phone Number</label>
                     <input type="tel" class="form-control" id="customer-phone" placeholder="Enter 10-digit number">
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-map-marker-alt" style="color: var(--accent-pink);"></i> Your Address</label>
-                    <textarea class="form-control" id="customer-address" rows="2" placeholder="Enter your full address"></textarea>
+                    <textarea class="form-control" id="customer-address" rows="2"
+                        placeholder="Enter your full address"></textarea>
                 </div>
-                
+
                 <div class="payment-note">
                     <i class="fas fa-money-bill-wave"></i> Pay at Parlour (Cash Only)
                 </div>
 
-                <button class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 15px;" onclick="confirmBooking()">Confirm My Booking <i class="fas fa-arrow-right"></i></button>
+                <button class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 15px;"
+                    onclick="confirmBooking()">Confirm My Booking <i class="fas fa-arrow-right"></i></button>
             </div>
 
             <div id="booking-success" style="display: none; text-align: center; padding: 30px 0;">
-                <div style="width: 80px; height: 80px; background: #E8F5E9; color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px;">
+                <div
+                    style="width: 80px; height: 80px; background: #E8F5E9; color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px;">
                     <i class="fas fa-check"></i>
                 </div>
                 <h2 style="color: var(--text-dark); margin-bottom: 10px;">Booking Confirmed!</h2>
-                <p style="margin: 15px 0; font-size: 16px; color: var(--text-dark);">Booking ID: <strong id="success-id" style="color:var(--dark-pink)"></strong></p>
-                <div id="success-details" style="background: #f9f9f9; padding: 15px; border-radius: 10px; color: var(--text-light); font-size: 15px; margin-bottom: 25px; line-height: 1.6;"></div>
-                
+                <p style="margin: 15px 0; font-size: 16px; color: var(--text-dark);">Booking ID: <strong id="success-id"
+                        style="color:var(--dark-pink)"></strong></p>
+                <div id="success-details"
+                    style="background: #f9f9f9; padding: 15px; border-radius: 10px; color: var(--text-light); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">
+                </div>
+
                 <div style="display: flex; gap: 10px; justify-content: center;">
                     <button class="btn btn-outline" onclick="closeModal()">Close</button>
-                    <button class="btn btn-primary" onclick="showView('my-bookings'); closeModal();">View Bookings</button>
+                    <button class="btn btn-primary" onclick="showView('my-bookings'); closeModal();">View
+                        Bookings</button>
                 </div>
             </div>
         </div>
@@ -738,419 +1755,436 @@
 
     <div class="modal-overlay" id="bill-modal" style="z-index: 3500;">
         <div class="premium-bill-card" id="bill-card-content">
-            </div>
+        </div>
     </div>
-<div id="blog-view">
+    <div id="blog-view">
         <div class="container">
-            
+
             <div class="blog-hero">
-                <h1 style="font-family: 'Playfair Display', serif; font-size: 42px; margin-bottom: 15px;">Inside Elegance Studio</h1>
-                <p style="font-size: 18px; max-width: 600px; margin: 0 auto; opacity: 0.9;">Discover the latest beauty trends, behind-the-scenes magic, and expert tips from our top stylists.</p>
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 42px; margin-bottom: 15px;">Inside
+                    Elegance Studio</h1>
+                <p style="font-size: 18px; max-width: 600px; margin: 0 auto; opacity: 0.9;">Discover the latest beauty
+                    trends, behind-the-scenes magic, and expert tips from our top stylists.</p>
             </div>
 
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-img-wrapper">
                         <span class="blog-date-badge"><i class="far fa-calendar"></i> </span>
-                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80" alt="Salon" class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80" alt="Salon"
+                            class="blog-img">
                     </div>
                     <div class="blog-content">
                         <span class="blog-category">Bridal Diaries</span>
                         <h3 class="blog-title">The Ultimate Pre-Wedding Skincare Routine</h3>
-                        <p class="blog-excerpt">Achieve that flawless bridal glow with our 3-month preparation guide. Here is what our expert dermatologists recommend...</p>
-                        
+                        <p class="blog-excerpt">Achieve that flawless bridal glow with our 3-month preparation guide.
+                            Here is what our expert dermatologists recommend...</p>
+
                     </div>
                 </div>
 
                 <div class="blog-card">
                     <div class="blog-img-wrapper">
                         <span class="blog-date-badge"><i class="far fa-calendar"></i></span>
-                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=600&q=80" alt="Nails" class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=600&q=80" alt="Nails"
+                            class="blog-img">
                     </div>
                     <div class="blog-content">
                         <span class="blog-category">Nail Art</span>
                         <h3 class="blog-title">Why Gel Polish is Taking Over the World</h3>
-                        <p class="blog-excerpt">Tired of chipped nails? Discover the incredible durability and stunning aesthetic of premium gel manicures...</p>
-                       
+                        <p class="blog-excerpt">Tired of chipped nails? Discover the incredible durability and stunning
+                            aesthetic of premium gel manicures...</p>
+
                     </div>
                 </div>
 
                 <div class="blog-card">
                     <div class="blog-img-wrapper">
                         <span class="blog-date-badge"><i class="far fa-calendar"></i> </span>
-                        <img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?w=600&q=80" alt="Hair" class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?w=600&q=80" alt="Hair"
+                            class="blog-img">
                     </div>
                     <div class="blog-content">
                         <span class="blog-category">Hair Care</span>
                         <h3 class="blog-title">Say Goodbye to Frizz: Organic Keratin Treatments</h3>
-                        <p class="blog-excerpt">We recently switched to 100% organic, formaldehyde-free keratin. Here is why your hair will absolutely love it...</p>
+                        <p class="blog-excerpt">We recently switched to 100% organic, formaldehyde-free keratin. Here is
+                            why your hair will absolutely love it...</p>
                         <div class="blog-footer">
-                           
-                    </div>
-                </div>
-            </div>
-           
 
-        </div>
-    </div>
-    <footer class="premium-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <span class="footer-brand">✨ Elegance Salon </span>
-                    <p class="footer-text">Experience the pinnacle of beauty and relaxation. Our expert team is dedicated to providing personalized services that enhance your natural glow and well-being.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="footer-heading">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="#" onclick="showView('home')"><i class="fas fa-chevron-right" style="font-size:10px;"></i> Our Services</a></li>
-                        <li><a href="#" onclick="showView('my-bookings')"><i class="fas fa-chevron-right" style="font-size:10px;"></i> My Bookings</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px;"></i> About Us</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px;"></i> Privacy Policy</a></li>
-                    </ul>
-                </div>
 
-                <div>
-                    <h4 class="footer-heading">Contact Us</h4>
-                    <ul class="footer-links footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Beauty Boulevard, Fashion District, NY 10001</li>
-                        <li><i class="fas fa-phone-alt"></i> +1 800-BEAUTY-99<br>+1 212-555-0198</li>
-                        <li><i class="fas fa-envelope"></i> hello@elegancespa.com</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="footer-heading">Newsletter</h4>
-                    <p class="footer-text" style="margin-bottom: 10px;">Subscribe to receive updates, access to exclusive deals, and more.</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed Successfully!', 'success');">
-                        <input type="email" class="newsletter-input" placeholder="Enter your email" required>
-                        <button type="submit" class="newsletter-btn">Join</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2026 Elegance Salon & Spa. All rights reserved.</p>
-                <div style="display: flex; gap: 20px;">
-                    <a href="#" style="color: #7a7376; text-decoration: none;">Terms of Service</a>
-                    <a href="#" style="color: #7a7376; text-decoration: none;">FAQ</a>
-                </div>
             </div>
         </div>
-    </footer>
+        <footer class="premium-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <span class="footer-brand">✨ Elegance Salon </span>
+                        <p class="footer-text">Experience the pinnacle of beauty and relaxation. Our expert team is
+                            dedicated to providing personalized services that enhance your natural glow and well-being.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+                    <div>
+                        <h4 class="footer-heading">Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" onclick="showView('home')"><i class="fas fa-chevron-right"
+                                        style="font-size:10px;"></i> Our Services</a></li>
+                            <li><a href="#" onclick="showView('my-bookings')"><i class="fas fa-chevron-right"
+                                        style="font-size:10px;"></i> My Bookings</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px;"></i> About Us</a>
+                            </li>
+                            <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px;"></i> Privacy
+                                    Policy</a></li>
+                        </ul>
+                    </div>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+                    <div>
+                        <h4 class="footer-heading">Contact Us</h4>
+                        <ul class="footer-links footer-contact">
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Beauty Boulevard, Fashion District, NY 10001
+                            </li>
+                            <li><i class="fas fa-phone-alt"></i> +1 800-BEAUTY-99<br>+1 212-555-0198</li>
+                            <li><i class="fas fa-envelope"></i> hello@elegancespa.com</li>
+                        </ul>
+                    </div>
 
-        // --- GSAP Initial Animations ---
-        function initGSAPAnimations() {
-            // Hero Animations
-            gsap.from(".gsap-hero-item", {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out",
-                delay: 0.2
-            });
+                    <div>
+                        <h4 class="footer-heading">Newsletter</h4>
+                        <p class="footer-text" style="margin-bottom: 10px;">Subscribe to receive updates, access to
+                            exclusive deals, and more.</p>
+                        <form class="newsletter-form"
+                            onsubmit="event.preventDefault(); showToast('Subscribed Successfully!', 'success');">
+                            <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                            <button type="submit" class="newsletter-btn">Join</button>
+                        </form>
+                    </div>
+                </div>
 
-            // Scroll animations for sections
-            gsap.utils.toArray('.gsap-fade-up').forEach(section => {
-                gsap.from(section, {
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%",
-                    },
-                    y: 50,
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Elegance Salon & Spa. All rights reserved.</p>
+                    <div style="display: flex; gap: 20px;">
+                        <a href="#" style="color: #7a7376; text-decoration: none;">Terms of Service</a>
+                        <a href="#" style="color: #7a7376; text-decoration: none;">FAQ</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+        <script>
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- GSAP Initial Animations ---
+            function initGSAPAnimations() {
+                // Hero Animations
+                gsap.from(".gsap-hero-item", {
+                    y: 40,
                     opacity: 0,
-                    duration: 0.8,
-                    ease: "power2.out"
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    delay: 0.2
                 });
-            });
-        }
 
-        // --- 0. Global Configuration & State ---
-        const API_BASE_URL = 'http://localhost:5000/api'; 
-        let services = [];
-        let selectedTimeSlot = null;
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+                // Scroll animations for sections
+                gsap.utils.toArray('.gsap-fade-up').forEach(section => {
+                    gsap.from(section, {
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 85%",
+                        },
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    });
+                });
+            }
 
-        // --- 1. Toast Notification System ---
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            
-            let icon = '✨';
-            if(type === 'success') icon = '✅';
-            if(type === 'error') icon = '❌';
-            if(type === 'warning') icon = '⚠️';
+            // --- 0. Global Configuration & State ---
+            const API_BASE_URL = '/api';
+            let services = [];
+            let selectedTimeSlot = null;
+            let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-            toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
-            container.appendChild(toast);
-            
-            void toast.offsetWidth; // Trigger reflow
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toast.classList.add('hide');
-                setTimeout(() => toast.remove(), 500);
-            }, 3500);
-        }
+            // --- 1. Toast Notification System ---
+            function showToast(message, type = 'success') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
 
-        // --- 2. Sidebar & View Management ---
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
+                let icon = '✨';
+                if (type === 'success') icon = '✅';
+                if (type === 'error') icon = '❌';
+                if (type === 'warning') icon = '⚠️';
 
-        function showView(viewId) {
-            document.getElementById('user-view').style.display = 'none';
-            document.getElementById('my-bookings-view').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('sidebar').classList.remove('open');
+                toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+                container.appendChild(toast);
 
-            if (viewId === 'home') {
-                document.getElementById('user-view').style.display = 'block';
-                // Trigger scroll trigger refresh due to layout change
-                setTimeout(() => ScrollTrigger.refresh(), 100);
-            } else if (viewId === 'my-bookings') {
-                if (!currentUser) {
-                    showToast("Please login first to view your bookings.", "warning");
-                    openLoginModal();
-                    return;
+                void toast.offsetWidth; // Trigger reflow
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    toast.classList.add('hide');
+                    setTimeout(() => toast.remove(), 500);
+                }, 3500);
+            }
+
+            // --- 2. Sidebar & View Management ---
+            function toggleSidebar() {
+                document.getElementById('sidebar').classList.toggle('open');
+            }
+
+            function showView(viewId) {
+                document.getElementById('user-view').style.display = 'none';
+                document.getElementById('my-bookings-view').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('sidebar').classList.remove('open');
+
+                if (viewId === 'home') {
+                    document.getElementById('user-view').style.display = 'block';
+                    // Trigger scroll trigger refresh due to layout change
+                    setTimeout(() => ScrollTrigger.refresh(), 100);
+                } else if (viewId === 'my-bookings') {
+                    if (!currentUser) {
+                        showToast("Please login first to view your bookings.", "warning");
+                        openLoginModal();
+                        return;
+                    }
+                    document.getElementById('my-bookings-view').style.display = 'block';
+                    renderUserBookings();
+                } else if (viewId === 'admin') {
+                    document.getElementById('admin-panel').style.display = 'block';
+                    renderAdminBookings();
                 }
-                document.getElementById('my-bookings-view').style.display = 'block';
-                renderUserBookings();
-            } else if (viewId === 'admin') {
-                document.getElementById('admin-panel').style.display = 'block';
-                renderAdminBookings();
             }
-        }
 
-        // --- 3. Auth UI & Logic Management ---
-        function updateAuthUI() {
-            const loginBtn = document.getElementById('sidebar-login-btn');
-            const navStatus = document.getElementById('nav-user-status');
-            
-            if (currentUser) {
-                loginBtn.innerHTML = '<i class="fas fa-sign-out-alt" style="width: 25px;"></i> Logout';
-                loginBtn.onclick = processLogout;
-                navStatus.innerHTML = `<i class="fas fa-user"></i> Hi, <strong>${currentUser.name}</strong>`;
-                
-                document.getElementById('customer-name').value = currentUser.name;
-                document.getElementById('customer-phone').value = currentUser.phone;
-            } else {
-                loginBtn.innerHTML = '<i class="fas fa-user-circle" style="width: 25px;"></i> Login';
-                loginBtn.onclick = openLoginModal;
-                navStatus.innerHTML = '<i class="fas fa-phone-alt"></i> 1800-BEAUTY';
-                
-                document.getElementById('customer-name').value = '';
-                document.getElementById('customer-phone').value = '';
+            // --- 3. Auth UI & Logic Management ---
+            function updateAuthUI() {
+                const loginBtn = document.getElementById('sidebar-login-btn');
+                const navStatus = document.getElementById('nav-user-status');
+
+                if (currentUser) {
+                    loginBtn.innerHTML = '<i class="fas fa-sign-out-alt" style="width: 25px;"></i> Logout';
+                    loginBtn.onclick = processLogout;
+                    navStatus.innerHTML = `<i class="fas fa-user"></i> Hi, <strong>${currentUser.name}</strong>`;
+
+                    document.getElementById('customer-name').value = currentUser.name;
+                    document.getElementById('customer-phone').value = currentUser.phone;
+                } else {
+                    loginBtn.innerHTML = '<i class="fas fa-user-circle" style="width: 25px;"></i> Login';
+                    loginBtn.onclick = openLoginModal;
+                    navStatus.innerHTML = '<i class="fas fa-phone-alt"></i> 1800-BEAUTY';
+
+                    document.getElementById('customer-name').value = '';
+                    document.getElementById('customer-phone').value = '';
+                }
             }
-        }
 
-        function openLoginModal() {
-            document.getElementById('sidebar').classList.remove('open');
-            const modal = document.getElementById('login-modal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('active'), 10);
-            toggleAuth('login');
-        }
-
-        function closeLoginModal() {
-            const modal = document.getElementById('login-modal');
-            modal.classList.remove('active');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                document.getElementById('form-login').reset();
-                document.getElementById('form-register').reset();
+            function openLoginModal() {
+                document.getElementById('sidebar').classList.remove('open');
+                const modal = document.getElementById('login-modal');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
                 toggleAuth('login');
-            }, 300);
-        }
-
-        function toggleAuth(type) {
-            document.getElementById('form-login').classList.remove('active');
-            document.getElementById('form-register').classList.remove('active');
-            document.getElementById('btn-login').classList.remove('active');
-            document.getElementById('btn-register').classList.remove('active');
-            document.getElementById('login-error').style.display = 'none';
-            document.getElementById('reg-error').style.display = 'none';
-
-            if(type === 'login') {
-                document.getElementById('form-login').classList.add('active');
-                document.getElementById('btn-login').classList.add('active');
-            } else {
-                document.getElementById('form-register').classList.add('active');
-                document.getElementById('btn-register').classList.add('active');
-            }
-        }
-
-        async function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const phone = document.getElementById('reg-phone').value.trim();
-            const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('reg-confirm-password').value;
-            const errorMsg = document.getElementById('reg-error');
-
-            if (password !== confirmPassword) {
-                errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match!';
-                errorMsg.style.display = 'block';
-                return;
             }
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, phone, email, password })
-                });
-                
-                const data = await response.json();
+            function closeLoginModal() {
+                const modal = document.getElementById('login-modal');
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.getElementById('form-login').reset();
+                    document.getElementById('form-register').reset();
+                    toggleAuth('login');
+                }, 300);
+            }
 
-                if (response.ok) {
-                    showToast("Account created successfully!", "success");
-                    authorizeUser(data.user);
+            function toggleAuth(type) {
+                document.getElementById('form-login').classList.remove('active');
+                document.getElementById('form-register').classList.remove('active');
+                document.getElementById('btn-login').classList.remove('active');
+                document.getElementById('btn-register').classList.remove('active');
+                document.getElementById('login-error').style.display = 'none';
+                document.getElementById('reg-error').style.display = 'none';
+
+                if (type === 'login') {
+                    document.getElementById('form-login').classList.add('active');
+                    document.getElementById('btn-login').classList.add('active');
                 } else {
-                    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Registration failed."}`;
+                    document.getElementById('form-register').classList.add('active');
+                    document.getElementById('btn-register').classList.add('active');
+                }
+            }
+
+            async function handleRegister(e) {
+                e.preventDefault();
+                const name = document.getElementById('reg-name').value.trim();
+                const phone = document.getElementById('reg-phone').value.trim();
+                const email = document.getElementById('reg-email').value.trim().toLowerCase();
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                const errorMsg = document.getElementById('reg-error');
+
+                if (password !== confirmPassword) {
+                    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match!';
                     errorMsg.style.display = 'block';
-                }
-            } catch (error) {
-                console.error("Registration Error:", error);
-                showToast("Server error. Please try again later.", "error");
-            }
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
-            const password = document.getElementById('login-password').value;
-            const errorMsg = document.getElementById('login-error');
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-
-                if (response.ok) {
-                    showToast(`Welcome back, ${data.user.name}!`, "success");
-                    authorizeUser(data.user);
-                } else {
-                    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Invalid email or password."}`;
-                    errorMsg.style.display = 'block';
-                }
-            } catch (error) {
-                console.error("Login Error:", error);
-                showToast("Server error. Please try again later.", "error");
-            }
-        }
-
-        function authorizeUser(userData) {
-            currentUser = { name: userData.name, phone: userData.phone, email: userData.email, id: userData._id };
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            updateAuthUI();
-            closeLoginModal();
-            
-            if (document.getElementById('my-bookings-view').style.display !== 'block' && document.getElementById('user-view').style.display !== 'block') {
-               showView('home'); 
-            }
-        }
-
-        function processLogout(e) {
-            if(e) e.preventDefault();
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            updateAuthUI();
-            showView('home');
-            showToast("You have been logged out successfully.", "success");
-        }
-
-        // --- 4. Frontend Rendering (Services & My Bookings) ---
-        async function loadInitialData() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/services`);
-                if (response.ok) {
-                    services = await response.json();
-                    renderServices();
-                    // Initialize GSAP after elements are in DOM
-                    setTimeout(initGSAPAnimations, 100);
-                }
-            } catch (error) {
-                console.error("Failed to load services:", error);
-                showToast("Could not load services from the database.", "error");
-            }
-        }
-function showView(viewId) {
-            // Hide all views first
-            document.getElementById('user-view').style.display = 'none';
-            document.getElementById('my-bookings-view').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('blog-view').style.display = 'none'; // ADDED THIS
-            document.getElementById('sidebar').classList.remove('open');
-
-            if (viewId === 'home') {
-                document.getElementById('user-view').style.display = 'block';
-                setTimeout(() => ScrollTrigger.refresh(), 100);
-            } else if (viewId === 'my-bookings') {
-                if (!currentUser) {
-                    showToast("Please login first to view your bookings.", "warning");
-                    openLoginModal();
                     return;
                 }
-                document.getElementById('my-bookings-view').style.display = 'block';
-                renderUserBookings();
-            } else if (viewId === 'admin') {
-                document.getElementById('admin-panel').style.display = 'block';
-                renderAdminBookings();
-            } else if (viewId === 'blog') { 
-                // NEW LOGIC FOR BLOG VIEW
-                document.getElementById('blog-view').style.display = 'block';
-                window.scrollTo(0, 0); // Scroll to top
-                
-                // Super smooth GSAP staggered entrance animation for the cards
-                gsap.fromTo(".blog-card", 
-                    { y: 60, opacity: 0, scale: 0.9 }, 
-                    { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" }
-                );
-                gsap.fromTo(".blog-hero", 
-                    { opacity: 0, scale: 0.95 }, 
-                    { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }
-                );
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, phone, email, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showToast("Account created successfully!", "success");
+                        authorizeUser(data.user);
+                    } else {
+                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Registration failed."}`;
+                        errorMsg.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Registration Error:", error);
+                    showToast("Server error. Please try again later.", "error");
+                }
             }
-        }
-        function renderServices(filter = 'All') {
-            const container = document.getElementById('services-container');
-            container.innerHTML = '';
 
-            // Map to generate cards
-            let renderedCount = 0;
+            async function handleLogin(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value.trim().toLowerCase();
+                const password = document.getElementById('login-password').value;
+                const errorMsg = document.getElementById('login-error');
 
-            services.forEach((service, index) => {
-                if (filter !== 'All' && service.mood !== filter) return;
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
 
-                const imageUrl = service.imageUrl || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80';
+                    const data = await response.json();
 
-                const card = document.createElement('div');
-                card.className = 'service-card dynamic-card';
-                
-                card.innerHTML = `
+                    if (response.ok) {
+                        showToast(`Welcome back, ${data.user.name}!`, "success");
+                        authorizeUser(data.user);
+                    } else {
+                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Invalid email or password."}`;
+                        errorMsg.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Login Error:", error);
+                    showToast("Server error. Please try again later.", "error");
+                }
+            }
+
+            function authorizeUser(userData) {
+                currentUser = { name: userData.name, phone: userData.phone, email: userData.email, id: userData._id };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                updateAuthUI();
+                closeLoginModal();
+
+                if (document.getElementById('my-bookings-view').style.display !== 'block' && document.getElementById('user-view').style.display !== 'block') {
+                    showView('home');
+                }
+            }
+
+            function processLogout(e) {
+                if (e) e.preventDefault();
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                updateAuthUI();
+                showView('home');
+                showToast("You have been logged out successfully.", "success");
+            }
+
+            // --- 4. Frontend Rendering (Services & My Bookings) ---
+            async function loadInitialData() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/services`);
+                    if (response.ok) {
+                        services = await response.json();
+                        renderServices();
+                        // Initialize GSAP after elements are in DOM
+                        setTimeout(initGSAPAnimations, 100);
+                    }
+                } catch (error) {
+                    console.error("Failed to load services:", error);
+                    showToast("Could not load services from the database.", "error");
+                }
+            }
+            function showView(viewId) {
+                // Hide all views first
+                document.getElementById('user-view').style.display = 'none';
+                document.getElementById('my-bookings-view').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('blog-view').style.display = 'none'; // ADDED THIS
+                document.getElementById('sidebar').classList.remove('open');
+
+                if (viewId === 'home') {
+                    document.getElementById('user-view').style.display = 'block';
+                    setTimeout(() => ScrollTrigger.refresh(), 100);
+                } else if (viewId === 'my-bookings') {
+                    if (!currentUser) {
+                        showToast("Please login first to view your bookings.", "warning");
+                        openLoginModal();
+                        return;
+                    }
+                    document.getElementById('my-bookings-view').style.display = 'block';
+                    renderUserBookings();
+                } else if (viewId === 'admin') {
+                    document.getElementById('admin-panel').style.display = 'block';
+                    renderAdminBookings();
+                } else if (viewId === 'blog') {
+                    // NEW LOGIC FOR BLOG VIEW
+                    document.getElementById('blog-view').style.display = 'block';
+                    window.scrollTo(0, 0); // Scroll to top
+
+                    // Super smooth GSAP staggered entrance animation for the cards
+                    gsap.fromTo(".blog-card",
+                        { y: 60, opacity: 0, scale: 0.9 },
+                        { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" }
+                    );
+                    gsap.fromTo(".blog-hero",
+                        { opacity: 0, scale: 0.95 },
+                        { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }
+                    );
+                }
+            }
+            function renderServices(filter = 'All') {
+                const container = document.getElementById('services-container');
+                container.innerHTML = '';
+
+                // Map to generate cards
+                let renderedCount = 0;
+
+                services.forEach((service, index) => {
+                    if (filter !== 'All' && service.mood !== filter) return;
+
+                    const imageUrl = service.imageUrl || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80';
+
+                    const card = document.createElement('div');
+                    card.className = 'service-card dynamic-card';
+
+                    card.innerHTML = `
                     <div class="service-image-container">
                         <img src="${imageUrl}" alt="${service.name}" class="service-image" loading="lazy">
                         <div class="service-overlay"></div>
@@ -1175,139 +2209,139 @@ function showView(viewId) {
                         </button>
                     </div>
                 `;
-                container.appendChild(card);
-                renderedCount++;
-            });
+                    container.appendChild(card);
+                    renderedCount++;
+                });
 
-            // Animate newly rendered cards
-            if(renderedCount > 0) {
-                gsap.fromTo(".dynamic-card", 
-                    { y: 50, opacity: 0 }, 
-                    { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", overwrite: true }
-                );
+                // Animate newly rendered cards
+                if (renderedCount > 0) {
+                    gsap.fromTo(".dynamic-card",
+                        { y: 50, opacity: 0 },
+                        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", overwrite: true }
+                    );
+                }
             }
-        }
-async function handleGoogleLogin(response) {
-    try {
-        // Send the Google token to your backend
-        const res = await fetch(`${API_BASE_URL}/auth/google`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: response.credential })
-        });
-        
-        const data = await res.json();
+            async function handleGoogleLogin(response) {
+                try {
+                    // Send the Google token to your backend
+                    const res = await fetch(`${API_BASE_URL}/auth/google`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: response.credential })
+                    });
 
-        if (res.ok) {
-            showToast(`Welcome, ${data.user.name}!`, "success");
-            authorizeUser(data.user);
-        } else {
-            const errorMsg = document.getElementById('login-error');
-            errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Google Login failed."}`;
-            errorMsg.style.display = 'block';
-        }
-    } catch (error) {
-        console.error("Google Auth Error:", error);
-        showToast("Server error during Google Login.", "error");
-    }
-}
-        function filterServices(mood) {
-            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderServices(mood);
-        }
+                    const data = await res.json();
 
-        function openBookingModal(serviceName, duration) {
-            document.getElementById('selected-service').value = serviceName;
-            document.getElementById('selected-duration').value = duration;
-            document.getElementById('modal-service-name').innerHTML = `<i class="fas fa-cut" style="color:var(--light-gold);"></i> Book ${serviceName}`;
-            
-            const modal = document.getElementById('booking-modal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('active'), 10);
-            resetModal(); 
-        }
+                    if (res.ok) {
+                        showToast(`Welcome, ${data.user.name}!`, "success");
+                        authorizeUser(data.user);
+                    } else {
+                        const errorMsg = document.getElementById('login-error');
+                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Google Login failed."}`;
+                        errorMsg.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Google Auth Error:", error);
+                    showToast("Server error during Google Login.", "error");
+                }
+            }
+            function filterServices(mood) {
+                document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                renderServices(mood);
+            }
 
-        function closeModal() {
-            const modal = document.getElementById('booking-modal');
-            modal.classList.remove('active');
-            setTimeout(() => { modal.style.display = 'none'; }, 300);
-        }
+            function openBookingModal(serviceName, duration) {
+                document.getElementById('selected-service').value = serviceName;
+                document.getElementById('selected-duration').value = duration;
+                document.getElementById('modal-service-name').innerHTML = `<i class="fas fa-cut" style="color:var(--light-gold);"></i> Book ${serviceName}`;
 
-        async function renderUserBookings() {
-            const container = document.getElementById('user-bookings-container');
-            document.getElementById('my-bookings-subtitle').innerHTML = `<i class="fas fa-mobile-alt"></i> Registered Phone: <strong>${currentUser.phone}</strong>`;
-            container.innerHTML = '<div style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; color: var(--accent-pink);"></i><p style="margin-top: 15px;">Loading your appointments...</p></div>';
+                const modal = document.getElementById('booking-modal');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
+                resetModal();
+            }
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/bookings/user/${currentUser.phone}`);
-                const myBookings = await response.json();
-                
-                container.innerHTML = '';
-                
-                if (myBookings.length === 0) {
-                    container.innerHTML = `<div style="text-align:center; padding: 50px 20px; background:var(--white); border-radius:20px; box-shadow: var(--shadow-soft);">
+            function closeModal() {
+                const modal = document.getElementById('booking-modal');
+                modal.classList.remove('active');
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            }
+
+            async function renderUserBookings() {
+                const container = document.getElementById('user-bookings-container');
+                document.getElementById('my-bookings-subtitle').innerHTML = `<i class="fas fa-mobile-alt"></i> Registered Phone: <strong>${currentUser.phone}</strong>`;
+                container.innerHTML = '<div style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; color: var(--accent-pink);"></i><p style="margin-top: 15px;">Loading your appointments...</p></div>';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/bookings/user/${currentUser.phone}`);
+                    const myBookings = await response.json();
+
+                    container.innerHTML = '';
+
+                    if (myBookings.length === 0) {
+                        container.innerHTML = `<div style="text-align:center; padding: 50px 20px; background:var(--white); border-radius:20px; box-shadow: var(--shadow-soft);">
                         <i class="far fa-calendar-times" style="font-size: 50px; color: #ddd; margin-bottom: 20px;"></i>
                         <h3 style="color:var(--text-light); font-weight: 500;">You have no upcoming bookings.</h3>
                         <button class="btn btn-primary" style="margin-top:25px;" onclick="showView('home')">Explore Services</button>
                     </div>`;
-                    return;
-                }
+                        return;
+                    }
 
-                myBookings.reverse().forEach((b, i) => {
-                    const statusText = b.status || 'Pending';
-                    
-                    let statusColor = 'var(--dark-pink)';
-                    let statusBg = '#FFF0F5';
-                    let icon = 'fa-clock';
-                    if (statusText === 'Confirmed') { statusColor = '#2E7D32'; statusBg = '#E8F5E9'; icon = 'fa-check-circle';}
-                    if (statusText === 'Rejected') { statusColor = '#D32F2F'; statusBg = '#FFEBEE'; icon = 'fa-times-circle';}
+                    myBookings.reverse().forEach((b, i) => {
+                        const statusText = b.status || 'Pending';
 
-                    const card = document.createElement('div');
-                    card.className = 'compact-booking-card';
-                    card.style.borderLeftColor = statusColor;
-                    
-                    // Delay animation slightly for stagger effect
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    
-                    const bookingDataString = encodeURIComponent(JSON.stringify(b));
+                        let statusColor = 'var(--dark-pink)';
+                        let statusBg = '#FFF0F5';
+                        let icon = 'fa-clock';
+                        if (statusText === 'Confirmed') { statusColor = '#2E7D32'; statusBg = '#E8F5E9'; icon = 'fa-check-circle'; }
+                        if (statusText === 'Rejected') { statusColor = '#D32F2F'; statusBg = '#FFEBEE'; icon = 'fa-times-circle'; }
 
-                    card.innerHTML = `
+                        const card = document.createElement('div');
+                        card.className = 'compact-booking-card';
+                        card.style.borderLeftColor = statusColor;
+
+                        // Delay animation slightly for stagger effect
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+
+                        const bookingDataString = encodeURIComponent(JSON.stringify(b));
+
+                        card.innerHTML = `
                         <div class="compact-info">
                             <h4>${b.service} <span style="font-size:12px; padding:4px 10px; background:${statusBg}; border-radius:12px; color:${statusColor}; font-weight:600;"><i class="fas ${icon}"></i> ${statusText}</span></h4>
                             <p><i class="far fa-calendar-alt"></i> <strong>${b.date}</strong> &nbsp;|&nbsp; <i class="far fa-clock"></i> <strong>${b.time}</strong></p>
-                            <p style="font-size:12px; margin-top:8px; background: #f9f9f9; display:inline-block; padding: 4px 8px; border-radius: 6px;">ID: #${b._id.substring(0,8).toUpperCase()}</p>
+                            <p style="font-size:12px; margin-top:8px; background: #f9f9f9; display:inline-block; padding: 4px 8px; border-radius: 6px;">ID: #${b._id.substring(0, 8).toUpperCase()}</p>
                         </div>
                         <div>
                             <button class="btn-view-bill" onclick="openBillModal('${bookingDataString}')"><i class="fas fa-file-invoice"></i> View Invoice</button>
                         </div>
                     `;
-                    container.appendChild(card);
+                        container.appendChild(card);
 
-                    // GSAP entry animation for bookings
-                    gsap.to(card, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.1, ease: "power2.out" });
-                });
-            } catch (error) {
-                container.innerHTML = '<p style="color:var(--danger); text-align:center; padding: 30px; background: #FFEBEE; border-radius: 10px;">Error loading your bookings. Please try again later.</p>';
+                        // GSAP entry animation for bookings
+                        gsap.to(card, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.1, ease: "power2.out" });
+                    });
+                } catch (error) {
+                    container.innerHTML = '<p style="color:var(--danger); text-align:center; padding: 30px; background: #FFEBEE; border-radius: 10px;">Error loading your bookings. Please try again later.</p>';
+                }
             }
-        }
 
-        // --- 5. Booking Logic (Smart Slots) & Bill Modal ---
-        function openBillModal(encodedData) {
-            const b = JSON.parse(decodeURIComponent(encodedData));
-            const statusText = b.status || 'Pending';
+            // --- 5. Booking Logic (Smart Slots) & Bill Modal ---
+            function openBillModal(encodedData) {
+                const b = JSON.parse(decodeURIComponent(encodedData));
+                const statusText = b.status || 'Pending';
 
-            let headerGradient = 'linear-gradient(135deg, var(--dark-pink) 0%, var(--accent-pink) 100%)'; 
-            if (statusText === 'Confirmed') headerGradient = 'linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)';
-            if (statusText === 'Rejected') headerGradient = 'linear-gradient(135deg, #C62828 0%, #EF5350 100%)';
+                let headerGradient = 'linear-gradient(135deg, var(--dark-pink) 0%, var(--accent-pink) 100%)';
+                if (statusText === 'Confirmed') headerGradient = 'linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)';
+                if (statusText === 'Rejected') headerGradient = 'linear-gradient(135deg, #C62828 0%, #EF5350 100%)';
 
-            const matchedService = services.find(s => s.name === b.service);
-            const price = matchedService ? matchedService.price : 0;
-            const displayPrice = price > 0 ? `₹${price}` : 'Price on Visit';
+                const matchedService = services.find(s => s.name === b.service);
+                const price = matchedService ? matchedService.price : 0;
+                const displayPrice = price > 0 ? `₹${price}` : 'Price on Visit';
 
-            const modalContent = document.getElementById('bill-card-content');
-            modalContent.innerHTML = `
+                const modalContent = document.getElementById('bill-card-content');
+                modalContent.innerHTML = `
                 <button onclick="closeBillModal()" style="position:absolute; top:15px; right:15px; background:rgba(0,0,0,0.2); border:none; font-size:22px; cursor:pointer; color:#fff; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; z-index:10; transition: 0.3s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'">&times;</button>
                 
                 <div class="bill-header" style="background: ${headerGradient};">
@@ -1348,217 +2382,220 @@ async function handleGoogleLogin(response) {
                 </div>
             `;
 
-            const modal = document.getElementById('bill-modal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('active'), 10);
-            
-            // Pop animation for bill
-            gsap.fromTo(".premium-bill-card", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
-        }
+                const modal = document.getElementById('bill-modal');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
 
-        function closeBillModal() {
-            const modal = document.getElementById('bill-modal');
-            modal.classList.remove('active');
-            setTimeout(() => { modal.style.display = 'none'; }, 300);
-        }
-
-        function resetModal() {
-            document.getElementById('booking-step-1').style.display = 'block';
-            document.getElementById('booking-success').style.display = 'none';
-            
-            if(!currentUser) {
-                document.getElementById('customer-name').value = '';
-                document.getElementById('customer-phone').value = '';
+                // Pop animation for bill
+                gsap.fromTo(".premium-bill-card", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
             }
-            selectedTimeSlot = null;
-        }
 
-        async function loadSlots() {
-            const date = document.getElementById('booking-date').value;
-            const duration = parseInt(document.getElementById('selected-duration').value);
-            const container = document.getElementById('slots-container');
-            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;"><i class="fas fa-spinner fa-spin"></i> Checking availability...</p>';
-            selectedTimeSlot = null;
+            function closeBillModal() {
+                const modal = document.getElementById('bill-modal');
+                modal.classList.remove('active');
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            }
 
-            if (!date) return;
+            function resetModal() {
+                document.getElementById('booking-step-1').style.display = 'block';
+                document.getElementById('booking-success').style.display = 'none';
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/bookings/date/${date}`);
-                const existingBookings = await response.json();
+                if (!currentUser) {
+                    document.getElementById('customer-name').value = '';
+                    document.getElementById('customer-phone').value = '';
+                }
+                selectedTimeSlot = null;
+            }
 
-                container.innerHTML = '';
+            async function loadSlots() {
+                const date = document.getElementById('booking-date').value;
+                const duration = parseInt(document.getElementById('selected-duration').value);
+                const container = document.getElementById('slots-container');
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;"><i class="fas fa-spinner fa-spin"></i> Checking availability...</p>';
+                selectedTimeSlot = null;
+
+                if (!date) return;
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/bookings/date/${date}`);
+                    const existingBookings = await response.json();
+
+                    container.innerHTML = '';
+                    const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
+                    const requiredSlots = Math.ceil(duration / 30);
+
+                    allSlots.forEach((slotText, index) => {
+                        const isAvailable = checkSlotAvailability(index, requiredSlots, allSlots, existingBookings);
+
+                        const slotDiv = document.createElement('div');
+                        let hour = parseInt(slotText.split(':')[0]);
+                        let ampm = hour >= 12 ? 'PM' : 'AM';
+                        let displayHour = hour > 12 ? hour - 12 : hour;
+                        let displayTime = `${displayHour}:${slotText.split(':')[1]} ${ampm}`;
+
+                        slotDiv.innerText = displayTime;
+
+                        if (isAvailable) {
+                            slotDiv.className = 'slot available';
+                            slotDiv.onclick = () => selectSlot(slotDiv, slotText);
+                        } else {
+                            slotDiv.className = 'slot full';
+                        }
+
+                        container.appendChild(slotDiv);
+                    });
+                } catch (error) {
+                    container.innerHTML = '<p style="color:red; grid-column: 1/-1;">Failed to check slot availability.</p>';
+                }
+            }
+
+            function checkSlotAvailability(startIndex, required, allSlots, existingBookings) {
+                if (startIndex + required > allSlots.length) return false;
+                for (let i = 0; i < required; i++) {
+                    const timeToCheck = allSlots[startIndex + i];
+                    const isBooked = existingBookings.some(b => b.blockedSlots.includes(timeToCheck));
+                    if (isBooked) return false;
+                }
+                return true;
+            }
+
+            function selectSlot(element, slotValue) {
+                document.querySelectorAll('.slot').forEach(el => el.classList.remove('selected'));
+                element.classList.add('selected');
+                selectedTimeSlot = slotValue;
+            }
+
+            async function confirmBooking() {
+                const date = document.getElementById('booking-date').value;
+                const name = document.getElementById('customer-name').value.trim();
+                const phone = document.getElementById('customer-phone').value.trim();
+                const address = document.getElementById('customer-address').value.trim();
+                const serviceName = document.getElementById('selected-service').value;
+                const duration = parseInt(document.getElementById('selected-duration').value);
+
+                if (!date || !selectedTimeSlot || !name || !phone || !address) {
+                    showToast("Please fill all details, select a date & slot.", "error");
+                    return;
+                }
+
+                if (!currentUser) {
+                    currentUser = { phone: phone, name: name, email: "guest@example.com" };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    updateAuthUI();
+                }
+
                 const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
-                const requiredSlots = Math.ceil(duration / 30);
+                const startIndex = allSlots.indexOf(selectedTimeSlot);
+                const requiredSlotsCount = Math.ceil(duration / 30);
+                const blockedSlots = [];
+                for (let i = 0; i < requiredSlotsCount; i++) {
+                    blockedSlots.push(allSlots[startIndex + i]);
+                }
 
-                allSlots.forEach((slotText, index) => {
-                    const isAvailable = checkSlotAvailability(index, requiredSlots, allSlots, existingBookings);
-                    
-                    const slotDiv = document.createElement('div');
-                    let hour = parseInt(slotText.split(':')[0]);
-                    let ampm = hour >= 12 ? 'PM' : 'AM';
-                    let displayHour = hour > 12 ? hour - 12 : hour;
-                    let displayTime = `${displayHour}:${slotText.split(':')[1]} ${ampm}`;
+                const newBooking = {
+                    name, phone, address, service: serviceName, date,
+                    time: selectedTimeSlot, blockedSlots, payment: "Cash"
+                };
 
-                    slotDiv.innerText = displayTime;
-                    
-                    if (isAvailable) {
-                        slotDiv.className = 'slot available';
-                        slotDiv.onclick = () => selectSlot(slotDiv, slotText);
-                    } else {
-                        slotDiv.className = 'slot full';
-                    }
-                    
-                    container.appendChild(slotDiv);
-                });
-            } catch (error) {
-                container.innerHTML = '<p style="color:red; grid-column: 1/-1;">Failed to check slot availability.</p>';
-            }
-        }
+                try {
+                    const response = await fetch(`${API_BASE_URL}/bookings`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newBooking)
+                    });
 
-        function checkSlotAvailability(startIndex, required, allSlots, existingBookings) {
-            if (startIndex + required > allSlots.length) return false;
-            for (let i = 0; i < required; i++) {
-                const timeToCheck = allSlots[startIndex + i];
-                const isBooked = existingBookings.some(b => b.blockedSlots.includes(timeToCheck));
-                if (isBooked) return false;
-            }
-            return true;
-        }
+                    const data = await response.json();
 
-        function selectSlot(element, slotValue) {
-            document.querySelectorAll('.slot').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedTimeSlot = slotValue;
-        }
+                    if (response.ok) {
+                        showToast("Booking Confirmed! 🎉", "success");
 
-        async function confirmBooking() {
-            const date = document.getElementById('booking-date').value;
-            const name = document.getElementById('customer-name').value.trim();
-            const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            const serviceName = document.getElementById('selected-service').value;
-            const duration = parseInt(document.getElementById('selected-duration').value);
-
-            if (!date || !selectedTimeSlot || !name || !phone || !address) {
-                showToast("Please fill all details, select a date & slot.", "error");
-                return;
-            }
-
-            if (!currentUser) {
-                currentUser = { phone: phone, name: name, email: "guest@example.com" };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateAuthUI();
-            }
-
-            const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
-            const startIndex = allSlots.indexOf(selectedTimeSlot);
-            const requiredSlotsCount = Math.ceil(duration / 30);
-            const blockedSlots = [];
-            for(let i=0; i < requiredSlotsCount; i++){
-                blockedSlots.push(allSlots[startIndex + i]);
-            }
-
-            const newBooking = {
-                name, phone, address, service: serviceName, date,
-                time: selectedTimeSlot, blockedSlots, payment: "Cash"
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/bookings`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newBooking)
-                });
-                
-                const data = await response.json();
-
-                if (response.ok) {
-                    showToast("Booking Confirmed! 🎉", "success");
-                    
-                    // Slide out step 1, slide in success step
-                    gsap.to("#booking-step-1", { opacity: 0, x: -50, duration: 0.3, onComplete: () => {
-                        document.getElementById('booking-step-1').style.display = 'none';
-                        document.getElementById('booking-success').style.display = 'block';
-                        document.getElementById('success-id').innerText = data.booking._id.toUpperCase();
-                        document.getElementById('success-details').innerHTML = `
+                        // Slide out step 1, slide in success step
+                        gsap.to("#booking-step-1", {
+                            opacity: 0, x: -50, duration: 0.3, onComplete: () => {
+                                document.getElementById('booking-step-1').style.display = 'none';
+                                document.getElementById('booking-success').style.display = 'block';
+                                document.getElementById('success-id').innerText = data.booking._id.toUpperCase();
+                                document.getElementById('success-details').innerHTML = `
                             <strong>Service:</strong> ${serviceName}<br>
                             <strong>Date:</strong> ${date} | <strong>Time:</strong> ${selectedTimeSlot}<br>
                             <br>
                             <i class="fas fa-info-circle"></i> Please pay Cash at the Parlour counter.
                         `;
-                        gsap.fromTo("#booking-success", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.4 });
-                    }});
-                    
-                    if (document.getElementById('admin-panel').style.display === 'block') {
-                        renderAdminBookings();
+                                gsap.fromTo("#booking-success", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.4 });
+                            }
+                        });
+
+                        if (document.getElementById('admin-panel').style.display === 'block') {
+                            renderAdminBookings();
+                        }
+                    } else {
+                        showToast(data.message || "Failed to book slot.", "error");
                     }
-                } else {
-                    showToast(data.message || "Failed to book slot.", "error");
+                } catch (error) {
+                    showToast("Server error. Please try again later.", "error");
                 }
-            } catch (error) {
-                showToast("Server error. Please try again later.", "error");
             }
-        }
 
-        async function renderAdminBookings() {
-            const tbody = document.getElementById('admin-bookings-table');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading data...</td></tr>';
+            async function renderAdminBookings() {
+                const tbody = document.getElementById('admin-bookings-table');
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading data...</td></tr>';
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/bookings/all`);
-                const bookings = await response.json();
-                
-                tbody.innerHTML = '';
+                try {
+                    const response = await fetch(`${API_BASE_URL}/bookings/all`);
+                    const bookings = await response.json();
 
-                if(bookings.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No bookings yet.</td></tr>';
-                    return;
-                }
+                    tbody.innerHTML = '';
 
-                bookings.forEach(b => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><span style="background: #f0f0f0; padding: 4px 8px; border-radius: 6px; font-family: monospace;">#${b._id.substring(0,8).toUpperCase()}</span></td>
+                    if (bookings.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No bookings yet.</td></tr>';
+                        return;
+                    }
+
+                    bookings.forEach(b => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                        <td><span style="background: #f0f0f0; padding: 4px 8px; border-radius: 6px; font-family: monospace;">#${b._id.substring(0, 8).toUpperCase()}</span></td>
                         <td><strong>${b.name}</strong><br><small style="color:var(--text-light)"><i class="fas fa-phone"></i> ${b.phone}</small></td>
                         <td>${b.service}</td>
                         <td>${b.date}<br><small style="color:var(--text-light)"><i class="far fa-clock"></i> ${b.time}</small></td>
                         <td><span style="background: #e8f5e9; color: var(--success); padding: 4px 10px; border-radius: 20px; font-size:12px; font-weight:600;">${b.payment}</span></td>
                         <td><button onclick="deleteBooking('${b._id}')" style="background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; transition:0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'"><i class="fas fa-trash-alt"></i> Delete</button></td>
                     `;
-                    tbody.appendChild(tr);
-                });
-            } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error loading database bookings.</td></tr>';
-            }
-        }
-
-        async function deleteBooking(id) {
-            if(confirm("Are you sure you want to permanently delete this booking?")) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
-                        method: 'DELETE'
+                        tbody.appendChild(tr);
                     });
-
-                    if (response.ok) {
-                        showToast("Booking deleted successfully.", "success");
-                        renderAdminBookings(); 
-                        if(document.getElementById('my-bookings-view').style.display === 'block') {
-                            renderUserBookings(); 
-                        }
-                    } else {
-                        showToast("Failed to delete booking.", "error");
-                    }
                 } catch (error) {
-                    showToast("Server error.", "error");
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error loading database bookings.</td></tr>';
                 }
             }
-        }
 
-        // --- Initialize App on load ---
-        window.onload = () => {
-            updateAuthUI();
-            loadInitialData(); // Fetches services from DB & fires initial GSAP animations
-        };
-    </script>
+            async function deleteBooking(id) {
+                if (confirm("Are you sure you want to permanently delete this booking?")) {
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (response.ok) {
+                            showToast("Booking deleted successfully.", "success");
+                            renderAdminBookings();
+                            if (document.getElementById('my-bookings-view').style.display === 'block') {
+                                renderUserBookings();
+                            }
+                        } else {
+                            showToast("Failed to delete booking.", "error");
+                        }
+                    } catch (error) {
+                        showToast("Server error.", "error");
+                    }
+                }
+            }
+
+            // --- Initialize App on load ---
+            window.onload = () => {
+                updateAuthUI();
+                loadInitialData(); // Fetches services from DB & fires initial GSAP animations
+            };
+        </script>
 </body>
+
 </html>
