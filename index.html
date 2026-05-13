@@ -2139,8 +2139,13 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstati
                 
             } catch (error) {
                 console.error("Google Login Error:", error);
-                // Agar abhi bhi koi error aaya, toh uska ASLI reason screen par dikhega
-                showToast("Error: " + error.message, "error");
+                let errorMsg = error.message;
+                if (error.code === 'auth/unauthorized-domain') {
+                    errorMsg = "This domain is not authorized for Google Login. Please add it to Firebase Console > Authentication > Settings > Authorized Domains.";
+                } else if (error.code === 'auth/operation-not-supported-in-this-environment') {
+                    errorMsg = "Google Login is not supported in this environment (e.g. cross-origin framing).";
+                }
+                showToast("Login Failed: " + errorMsg, "error");
             }
         }
         function authorizeUser(userData) {

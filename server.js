@@ -4,6 +4,13 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware to set headers for Firebase Auth popups
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+    next();
+});
+
 // Yeh command aapke folder ki sabhi HTML files ko browser par show karegi
 app.use(express.static(path.join(__dirname, './')));
 
