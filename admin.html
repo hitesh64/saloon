@@ -863,12 +863,53 @@
             </form>
         </div>
     </div>
+<script type="module">
+    // ==========================================
+    // 1. FIREBASE SETUP
+    // ==========================================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-        const API_BASE_URL = '/api';
-        let currentAdmin = JSON.parse(localStorage.getItem('adminUser')) || null;
-        let servicePricesMap = {};
+    const firebaseConfig = {
+        apiKey: "AIzaSyAkLMcbpj-z0l9USgf3ztkx85cksMZhcxQ",
+        authDomain: "mypro-fbd6d.firebaseapp.com",
+        projectId: "mypro-fbd6d",
+        storageBucket: "mypro-fbd6d.firebasestorage.app",
+        messagingSenderId: "316983385865",
+        appId: "1:316983385865:web:8feaab7c793a060e88fdd8",
+        measurementId: "G-XCVJWHKZH6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log("Admin Panel Firebase se connect ho gaya hai!");
+
+    // ==========================================
+    // 2. WINDOW CONNECTIONS (Zaroori taaki HTML buttons kaam karein)
+    // ==========================================
+    window.toggleAuth = toggleAuth;
+    window.handleLogin = handleLogin;
+    window.handleRegister = handleRegister;
+    window.logoutAdmin = logoutAdmin;
+    window.switchTab = switchTab;
+    window.openServiceModal = openServiceModal;
+    window.closeServiceModal = closeServiceModal;
+    window.saveService = saveService;
+    window.deleteService = deleteService;
+    window.updateBookingStatus = updateBookingStatus;
+    window.deleteBooking = deleteBooking;
+    window.fetchBookings = fetchBookings;
+
+    // ==========================================
+    // 3. AAPKA MAIN LOGIC (Purana Code)
+    // ==========================================
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const API_BASE_URL = '/api';
+    let currentAdmin = JSON.parse(localStorage.getItem('adminUser')) || null;
+    let servicePricesMap = {};
+   
+        
+       
 
         // GSAP Initial Animations
         function runAuthAnimations() {
@@ -935,23 +976,22 @@
             const errorMsg = document.getElementById('login-error');
 
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    currentAdmin = data.user;
+                // Firebase Admin Login Code
+                const q = query(collection(db, "admins"), where("email", "==", email), where("password", "==", password));
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+                    currentAdmin = { _id: snap.docs[0].id, ...snap.docs[0].data() };
                     localStorage.setItem('adminUser', JSON.stringify(currentAdmin));
                     showAdminDashboard();
                 } else {
-                    errorMsg.innerText = data.message || "Invalid credentials.";
+                    errorMsg.innerText = "Invalid Admin email or password.";
                     errorMsg.style.display = 'block';
                     gsap.fromTo(errorMsg, { x: -10 }, { x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})" });
                 }
             } catch (error) {
-                errorMsg.innerText = "Server error. Is the backend running?";
+                console.error(error);
+                errorMsg.innerText = "Firebase error checking credentials.";
                 errorMsg.style.display = 'block';
             }
         }
@@ -968,27 +1008,29 @@
             if (password !== confirm) {
                 errorMsg.innerText = "Passwords do not match!";
                 errorMsg.style.display = 'block';
-                gsap.fromTo(errorMsg, { x: -10 }, { x: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})" });
                 return;
             }
 
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/auth/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, phone, email, password })
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    currentAdmin = data.user;
-                    localStorage.setItem('adminUser', JSON.stringify(currentAdmin));
-                    showAdminDashboard();
-                } else {
-                    errorMsg.innerText = data.message || "Registration failed.";
+                // Check if admin already exists
+                const q = query(collection(db, "admins"), where("email", "==", email));
+                const snap = await getDocs(q);
+                
+                if (!snap.empty) {
+                    errorMsg.innerText = "Admin email already registered.";
                     errorMsg.style.display = 'block';
+                    return;
                 }
+
+                // Add new admin to Firebase
+                const docRef = await addDoc(collection(db, "admins"), { name, phone, email, password });
+                
+                currentAdmin = { _id: docRef.id, name, phone, email };
+                localStorage.setItem('adminUser', JSON.stringify(currentAdmin));
+                showAdminDashboard();
             } catch (error) {
-                errorMsg.innerText = "Server error. Is the backend running?";
+                console.error(error);
+                errorMsg.innerText = "Firebase error creating admin.";
                 errorMsg.style.display = 'block';
             }
         }
@@ -1051,13 +1093,28 @@
         }
 
         let adminServicesList = [];
+        
         async function fetchAdminServices() {
             const tbody = document.getElementById('services-table-body');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;"><div style="font-size:24px; animation:spin 1s linear infinite;">⏳</div>Loading services...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;"><div style="font-size:24px; animation:spin 1s linear infinite;">⏳</div>Loading services from Firebase...</td></tr>';
+            
             try {
-                const response = await fetch(`${API_BASE_URL}/services`);
-                adminServicesList = await response.json();
+                // Firebase se data nikalne ka naya code
+                const querySnapshot = await getDocs(collection(db, "services"));
+                
+                // Firestore ke documents ko array mein convert karna
+                adminServicesList = querySnapshot.docs.map(doc => ({ 
+                    _id: doc.id, 
+                    ...doc.data() 
+                }));
+
                 tbody.innerHTML = '';
+                
+                if (adminServicesList.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">No services found. Please add a new service.</td></tr>';
+                    return;
+                }
+
                 adminServicesList.forEach(srv => {
                     const popBadge = srv.popular ? '<span style="font-size:10px; background:var(--light-gold); color:#fff; padding:3px 8px; border-radius:12px; margin-left:8px; box-shadow:0 2px 5px rgba(212,175,55,0.3);">🔥 Popular</span>' : '';
                     tbody.innerHTML += `
@@ -1077,7 +1134,10 @@
                     `;
                 });
                 animateTableRows('services-table-body');
-            } catch (error) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red; padding:20px;">Failed to load services. Check backend connection.</td></tr>'; }
+            } catch (error) { 
+                console.error("Firebase Error:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red; padding:20px;">Failed to load services from Firebase. Check console for details.</td></tr>'; 
+            }
         }
 
         function openServiceModal(id = null) {
@@ -1112,33 +1172,51 @@
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ Saving...';
+            btn.innerHTML = '⏳ Saving to Firebase...';
             btn.disabled = true;
 
             const id = document.getElementById('srv-id').value;
-            const formData = new FormData();
-            formData.append('name', document.getElementById('srv-name').value);
-            formData.append('price', document.getElementById('srv-price').value);
-            formData.append('duration', document.getElementById('srv-duration').value);
-            formData.append('mood', document.getElementById('srv-mood').value);
-            formData.append('popular', document.getElementById('srv-popular').checked);
-
             const imageFile = document.getElementById('srv-image-file').files[0];
-            if (imageFile) formData.append('image', imageFile);
+
+            let serviceData = {
+                name: document.getElementById('srv-name').value,
+                price: Number(document.getElementById('srv-price').value),
+                duration: Number(document.getElementById('srv-duration').value),
+                mood: document.getElementById('srv-mood').value,
+                popular: document.getElementById('srv-popular').checked
+            };
 
             try {
-                const url = id ? `${API_BASE_URL}/services/${id}` : `${API_BASE_URL}/services`;
-                const response = await fetch(url, { method: id ? 'PUT' : 'POST', body: formData });
-                if (response.ok) {
-                    closeServiceModal();
-                    fetchAdminServices();
-                    fetchServicePrices();
-                } else {
-                    const errorData = await response.json().catch(() => ({ message: "Image is too large." }));
-                    alert(`Save failed!\nReason: ${errorData.message}`);
+                // Agar Image dali hai toh use Base64 Text mein convert karo
+                if (imageFile) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(imageFile);
+                    await new Promise((resolve, reject) => {
+                        reader.onload = () => {
+                            serviceData.imageUrl = reader.result;
+                            resolve();
+                        };
+                        reader.onerror = error => reject(error);
+                    });
                 }
-            } catch (error) { alert("Network error: Server connection failed."); }
-            finally {
+
+                if (id) {
+                    // Purani service Update karo
+                    const serviceRef = doc(db, "services", id);
+                    await updateDoc(serviceRef, serviceData);
+                } else {
+                    // Nayi service Add karo
+                    await addDoc(collection(db, "services"), serviceData);
+                }
+                
+                closeServiceModal();
+                fetchAdminServices();
+                fetchDashboardStats();
+                alert("Service saved successfully in Firebase! 🎉");
+            } catch (error) {
+                alert("Save failed! Note: Firestore max document size is 1MB. Try uploading a smaller image.");
+                console.error(error);
+            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -1161,21 +1239,23 @@
             }
         }
 
-        async function fetchDashboardStats() {
+       async function fetchDashboardStats() {
             const tbody = document.getElementById('recent-bookings-table');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">Fetching live data... ⏳</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">Fetching live data from Firebase... ⏳</td></tr>';
+            
             try {
-                const [servicesRes, bookingsRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/services`),
-                    fetch(`${API_BASE_URL}/bookings/all`)
-                ]);
-                if (servicesRes.ok) {
-                    const services = await servicesRes.json();
-                    services.forEach(s => servicePricesMap[s.name] = s.price);
-                }
-                const bookings = await bookingsRes.json();
+                // 1. Fetch Services (Prices ke liye)
+                const servicesSnap = await getDocs(collection(db, "services"));
+                servicesSnap.forEach(doc => {
+                    const s = doc.data();
+                    servicePricesMap[s.name] = s.price;
+                });
 
-                // Animate number counter
+                // 2. Fetch Bookings
+                const bookingsSnap = await getDocs(collection(db, "bookings"));
+                let bookings = bookingsSnap.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+
+                // Total Bookings Counter Animation
                 gsap.to(document.getElementById('stat-total-bookings'), {
                     innerHTML: bookings.length, roundProps: "innerHTML", duration: 1.5, ease: "power2.out"
                 });
@@ -1185,6 +1265,8 @@
                     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-light);">No recent bookings found.</td></tr>';
                     return;
                 }
+                
+                // Sirf aakhri 5 bookings dikhana
                 const recent = [...bookings].reverse().slice(0, 5);
                 recent.forEach(b => {
                     const statusText = b.status || 'Pending';
@@ -1204,27 +1286,34 @@
                     tbody.appendChild(tr);
                 });
                 animateTableRows('recent-bookings-table');
-            } catch (error) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red; padding:20px;">Connection error! Is backend running?</td></tr>'; }
+            } catch (error) { 
+                console.error("Dashboard error:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red; padding:20px;">Firebase Connection Error!</td></tr>'; 
+            }
         }
 
         async function fetchBookings() {
             const tbody = document.getElementById('all-bookings-table');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;"><div style="font-size:24px; animation:spin 1s linear infinite;">⏳</div>Loading database records...</td></tr>';
-            if (Object.keys(servicePricesMap).length === 0) await fetchServicePrices();
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;"><div style="font-size:24px; animation:spin 1s linear infinite;">⏳</div>Loading database records from Firebase...</td></tr>';
+            
             try {
-                const response = await fetch(`${API_BASE_URL}/bookings/all`);
-                const bookings = await response.json();
+                // Firebase se Bookings nikalna
+                const querySnapshot = await getDocs(collection(db, "bookings"));
+                const bookings = querySnapshot.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+                
                 tbody.innerHTML = '';
                 if (bookings.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">No bookings found in the database.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">No bookings found in Firebase.</td></tr>';
                     return;
                 }
+                
                 bookings.forEach(b => {
                     const statusText = b.status || 'Pending';
                     const statusColor = statusText === 'Confirmed' ? 'var(--success)' : (statusText === 'Rejected' ? 'var(--danger)' : 'var(--warning)');
                     const statusBg = statusText === 'Confirmed' ? 'rgba(46, 204, 113, 0.15)' : (statusText === 'Rejected' ? 'rgba(231, 76, 60, 0.15)' : 'rgba(243, 156, 18, 0.15)');
                     const icon = statusText === 'Confirmed' ? '✅' : (statusText === 'Rejected' ? '❌' : '⏳');
-                    const price = servicePricesMap[b.service] ? `₹${servicePricesMap[b.service]}` : 'N/A';
+                    // Price fallback agar map mein na ho
+                    const price = b.service ? "Check Service" : 'N/A'; 
 
                     let actionButtons = '';
                     if (statusText === 'Pending') {
@@ -1232,6 +1321,7 @@
                         actionButtons += `<button class="action-btn btn-reject" onclick="updateBookingStatus('${b._id}', 'Rejected')">❌ Reject</button>`;
                     }
                     actionButtons += `<button class="action-btn btn-delete-action" onclick="deleteBooking('${b._id}')">🗑️ Delete</button>`;
+                    
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td><small style="color:var(--text-light); font-family:monospace;">#${b._id.substring(0, 8)}</small><br><strong style="color:var(--text-dark)">${b.date}</strong><br><small>${b.time}</small></td>
@@ -1244,30 +1334,40 @@
                     tbody.appendChild(tr);
                 });
                 animateTableRows('all-bookings-table');
-            } catch (error) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red; padding:20px;">Failed to connect to the server.</td></tr>'; }
+            } catch (error) { 
+                console.error("Firebase Bookings Error:", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red; padding:20px;">Failed to connect to Firebase.</td></tr>'; 
+            }
         }
 
-        async function updateBookingStatus(id, newStatus) {
+       async function updateBookingStatus(id, newStatus) {
             try {
-                const response = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                if (response.ok) { fetchBookings(); fetchDashboardStats(); }
-                else { alert("Failed to update."); }
-            } catch (error) { alert("Server error!"); }
+                // Firebase Update Code
+                const bookingRef = doc(db, "bookings", id);
+                let updateData = { status: newStatus };
+                if (newStatus === 'Rejected') {
+                    updateData.blockedSlots = []; // Agar reject kiya toh slot khali kar do
+                }
+                
+                await updateDoc(bookingRef, updateData);
+                fetchBookings(); 
+                // fetchDashboardStats(); // Ise baad mein enable karenge
+            } catch (error) { alert("Server error updating status in Firebase!"); }
         }
 
         async function deleteBooking(id) {
             if (confirm("Are you sure you want to delete this appointment?")) {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/bookings/${id}`, { method: 'DELETE' });
-                    if (response.ok) { fetchBookings(); fetchDashboardStats(); }
-                    else { alert("Failed to delete."); }
-                } catch (error) { alert("Server error!"); }
+                    // Firebase Delete Code
+                    await deleteDoc(doc(db, "bookings", id));
+                    fetchBookings(); 
+                    // fetchDashboardStats(); // Ise baad mein enable karenge
+                } catch (error) { alert("Failed to delete from Firebase."); }
             }
         }
+
+       
+        
     </script>
     <style>
         @keyframes spin {

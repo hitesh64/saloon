@@ -10,6 +10,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --primary-pink: #FFF0F5;
@@ -1636,16 +1638,10 @@
             </div>
 
             <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
-                <div id="g_id_onload"
-                    data-client_id="322997860332-p6g82li62crt2b7nmpe5sf1k2cd11e0v.apps.googleusercontent.com"
-                    data-context="signin" data-ux_mode="popup" data-callback="handleGoogleLogin"
-                    data-auto_prompt="false">
-                </div>
-
-                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
-                    data-text="signin_with" data-size="large" data-logo_alignment="left"
-                    style="display: flex; justify-content: center; margin-bottom: 15px;">
-                </div>
+              <button type="button" onclick="handleGoogleLogin()" style="width: 100%; padding: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 2px solid #eee; border-radius: 12px; background: white; color: var(--text-dark); font-weight: 600; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='white'">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 20px;">
+                    Sign in with Google
+                </button>
 
                 <div style="text-align: center; color: var(--text-light); margin: 15px 0; font-size: 14px;">OR</div>
 
@@ -1880,311 +1876,322 @@
             </div>
         </footer>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+      <script type="module">
+        // ==========================================
+        // 1. FIREBASE SETUP
+        // ==========================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, query, where, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkLMcbpj-z0l9USgf3ztkx85cksMZhcxQ",
+            authDomain: "mypro-fbd6d.firebaseapp.com",
+            projectId: "mypro-fbd6d",
+            storageBucket: "mypro-fbd6d.firebasestorage.app",
+            messagingSenderId: "316983385865",
+            appId: "1:316983385865:web:8feaab7c793a060e88fdd8",
+            measurementId: "G-XCVJWHKZH6"
+        };
 
-        <script>
-            gsap.registerPlugin(ScrollTrigger);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        console.log("Main Website Firebase se connect ho gayi hai!");
 
-            // --- GSAP Initial Animations ---
-            function initGSAPAnimations() {
-                // Hero Animations
-                gsap.from(".gsap-hero-item", {
-                    y: 40,
-                    opacity: 0,
-                    duration: 1,
-                    stagger: 0.2,
-                    ease: "power3.out",
-                    delay: 0.2
+        // ==========================================
+        // 2. WINDOW CONNECTIONS
+        // ==========================================
+        window.toggleSidebar = toggleSidebar;
+        window.showView = showView;
+        window.openLoginModal = openLoginModal;
+        window.closeLoginModal = closeLoginModal;
+        window.toggleAuth = toggleAuth;
+        window.handleLogin = handleLogin;
+        window.handleRegister = handleRegister;
+        window.handleGoogleLogin = handleGoogleLogin;
+        window.filterServices = filterServices;
+        window.openBookingModal = openBookingModal;
+        window.closeModal = closeModal;
+        window.openBillModal = openBillModal;
+        window.closeBillModal = closeBillModal;
+        window.loadSlots = loadSlots;
+        window.confirmBooking = confirmBooking;
+        window.processLogout = processLogout;
+        window.deleteBooking = deleteBooking;
+
+        // ==========================================
+        // 3. MAIN LOGIC & FIREBASE FUNCTIONS
+        // ==========================================
+        gsap.registerPlugin(ScrollTrigger);
+
+        function initGSAPAnimations() {
+            gsap.from(".gsap-hero-item", {
+                y: 40, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out", delay: 0.2
+            });
+            gsap.utils.toArray('.gsap-fade-up').forEach(section => {
+                gsap.from(section, {
+                    scrollTrigger: { trigger: section, start: "top 85%" },
+                    y: 50, opacity: 0, duration: 0.8, ease: "power2.out"
                 });
+            });
+        }
 
-                // Scroll animations for sections
-                gsap.utils.toArray('.gsap-fade-up').forEach(section => {
-                    gsap.from(section, {
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 85%",
-                        },
-                        y: 50,
-                        opacity: 0,
-                        duration: 0.8,
-                        ease: "power2.out"
-                    });
-                });
-            }
+        let services = [];
+        let selectedTimeSlot = null;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-            // --- 0. Global Configuration & State ---
-            const API_BASE_URL = '/api';
-            let services = [];
-            let selectedTimeSlot = null;
-            let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        // --- Toast System ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let icon = type === 'success' ? '✅' : (type === 'error' ? '❌' : '⚠️');
+            toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 500);
+            }, 3500);
+        }
 
-            // --- 1. Toast Notification System ---
-            function showToast(message, type = 'success') {
-                const container = document.getElementById('toast-container');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
+        // --- Views & UI ---
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
-                let icon = '✨';
-                if (type === 'success') icon = '✅';
-                if (type === 'error') icon = '❌';
-                if (type === 'warning') icon = '⚠️';
+        function showView(viewId) {
+            document.getElementById('user-view').style.display = 'none';
+            document.getElementById('my-bookings-view').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('blog-view').style.display = 'none';
+            document.getElementById('sidebar').classList.remove('open');
 
-                toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
-                container.appendChild(toast);
-
-                void toast.offsetWidth; // Trigger reflow
-                toast.classList.add('show');
-
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    toast.classList.add('hide');
-                    setTimeout(() => toast.remove(), 500);
-                }, 3500);
-            }
-
-            // --- 2. Sidebar & View Management ---
-            function toggleSidebar() {
-                document.getElementById('sidebar').classList.toggle('open');
-            }
-
-            function showView(viewId) {
-                document.getElementById('user-view').style.display = 'none';
-                document.getElementById('my-bookings-view').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('sidebar').classList.remove('open');
-
-                if (viewId === 'home') {
-                    document.getElementById('user-view').style.display = 'block';
-                    // Trigger scroll trigger refresh due to layout change
-                    setTimeout(() => ScrollTrigger.refresh(), 100);
-                } else if (viewId === 'my-bookings') {
-                    if (!currentUser) {
-                        showToast("Please login first to view your bookings.", "warning");
-                        openLoginModal();
-                        return;
-                    }
-                    document.getElementById('my-bookings-view').style.display = 'block';
-                    renderUserBookings();
-                } else if (viewId === 'admin') {
-                    document.getElementById('admin-panel').style.display = 'block';
-                    renderAdminBookings();
+            if (viewId === 'home') {
+                document.getElementById('user-view').style.display = 'block';
+                setTimeout(() => ScrollTrigger.refresh(), 100);
+            } else if (viewId === 'my-bookings') {
+                if (!currentUser) {
+                    showToast("Please login first to view your bookings.", "warning");
+                    openLoginModal();
+                    return;
                 }
+                document.getElementById('my-bookings-view').style.display = 'block';
+                renderUserBookings();
+            } else if (viewId === 'admin') {
+                document.getElementById('admin-panel').style.display = 'block';
+                renderAdminBookings();
+            } else if (viewId === 'blog') {
+                document.getElementById('blog-view').style.display = 'block';
+                window.scrollTo(0, 0);
+                gsap.fromTo(".blog-card", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" });
+                gsap.fromTo(".blog-hero", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" });
             }
+        }
 
-            // --- 3. Auth UI & Logic Management ---
-            function updateAuthUI() {
-                const loginBtn = document.getElementById('sidebar-login-btn');
-                const navStatus = document.getElementById('nav-user-status');
-
-                if (currentUser) {
-                    loginBtn.innerHTML = '<i class="fas fa-sign-out-alt" style="width: 25px;"></i> Logout';
-                    loginBtn.onclick = processLogout;
-                    navStatus.innerHTML = `<i class="fas fa-user"></i> Hi, <strong>${currentUser.name}</strong>`;
-
-                    document.getElementById('customer-name').value = currentUser.name;
-                    document.getElementById('customer-phone').value = currentUser.phone;
-                } else {
-                    loginBtn.innerHTML = '<i class="fas fa-user-circle" style="width: 25px;"></i> Login';
-                    loginBtn.onclick = openLoginModal;
-                    navStatus.innerHTML = '<i class="fas fa-phone-alt"></i> 1800-BEAUTY';
-
-                    document.getElementById('customer-name').value = '';
-                    document.getElementById('customer-phone').value = '';
+        function updateAuthUI() {
+            const loginBtn = document.getElementById('sidebar-login-btn');
+            const navStatus = document.getElementById('nav-user-status');
+            if (currentUser) {
+                loginBtn.innerHTML = '<i class="fas fa-sign-out-alt" style="width: 25px;"></i> Logout';
+                loginBtn.onclick = processLogout;
+                navStatus.innerHTML = `<i class="fas fa-user"></i> Hi, <strong>${currentUser.name}</strong>`;
+                if(document.getElementById('customer-name')) document.getElementById('customer-name').value = currentUser.name;
+                
+                // Naya Logic: Agar phone N/A hai toh form khali rakho taaki user khud number daale
+                if(document.getElementById('customer-phone')) {
+                    document.getElementById('customer-phone').value = (currentUser.phone === "N/A") ? "" : currentUser.phone;
                 }
+            } else {
+                loginBtn.innerHTML = '<i class="fas fa-user-circle" style="width: 25px;"></i> Login';
+                loginBtn.onclick = openLoginModal;
+                navStatus.innerHTML = '<i class="fas fa-phone-alt"></i> 1800-BEAUTY';
+                if(document.getElementById('customer-name')) document.getElementById('customer-name').value = '';
+                if(document.getElementById('customer-phone')) document.getElementById('customer-phone').value = '';
             }
+        }
+        function toggleAuth(type) {
+            document.getElementById('form-login').classList.remove('active');
+            document.getElementById('form-register').classList.remove('active');
+            document.getElementById('btn-login').classList.remove('active');
+            document.getElementById('btn-register').classList.remove('active');
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('reg-error').style.display = 'none';
 
-            function openLoginModal() {
-                document.getElementById('sidebar').classList.remove('open');
-                const modal = document.getElementById('login-modal');
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('active'), 10);
+            if (type === 'login') {
+                document.getElementById('form-login').classList.add('active');
+                document.getElementById('btn-login').classList.add('active');
+            } else {
+                document.getElementById('form-register').classList.add('active');
+                document.getElementById('btn-register').classList.add('active');
+            }
+        }
+
+        function openLoginModal() {
+            document.getElementById('sidebar').classList.remove('open');
+            const modal = document.getElementById('login-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            toggleAuth('login');
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('form-login').reset();
+                document.getElementById('form-register').reset();
                 toggleAuth('login');
+            }, 300);
+        }
+
+        // --- Firebase AUTH (Using Firestore Users Collection) ---
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const errorMsg = document.getElementById('reg-error');
+
+            if (password !== confirmPassword) {
+                errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match!';
+                errorMsg.style.display = 'block';
+                return;
             }
 
-            function closeLoginModal() {
-                const modal = document.getElementById('login-modal');
-                modal.classList.remove('active');
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    document.getElementById('form-login').reset();
-                    document.getElementById('form-register').reset();
-                    toggleAuth('login');
-                }, 300);
-            }
-
-            function toggleAuth(type) {
-                document.getElementById('form-login').classList.remove('active');
-                document.getElementById('form-register').classList.remove('active');
-                document.getElementById('btn-login').classList.remove('active');
-                document.getElementById('btn-register').classList.remove('active');
-                document.getElementById('login-error').style.display = 'none';
-                document.getElementById('reg-error').style.display = 'none';
-
-                if (type === 'login') {
-                    document.getElementById('form-login').classList.add('active');
-                    document.getElementById('btn-login').classList.add('active');
-                } else {
-                    document.getElementById('form-register').classList.add('active');
-                    document.getElementById('btn-register').classList.add('active');
-                }
-            }
-
-            async function handleRegister(e) {
-                e.preventDefault();
-                const name = document.getElementById('reg-name').value.trim();
-                const phone = document.getElementById('reg-phone').value.trim();
-                const email = document.getElementById('reg-email').value.trim().toLowerCase();
-                const password = document.getElementById('reg-password').value;
-                const confirmPassword = document.getElementById('reg-confirm-password').value;
-                const errorMsg = document.getElementById('reg-error');
-
-                if (password !== confirmPassword) {
-                    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match!';
+            try {
+                // Check if user exists
+                const q = query(collection(db, "users"), where("email", "==", email));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> Email already registered.`;
                     errorMsg.style.display = 'block';
                     return;
                 }
 
-                try {
-                    const response = await fetch(`${API_BASE_URL}/auth/register`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, phone, email, password })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        showToast("Account created successfully!", "success");
-                        authorizeUser(data.user);
-                    } else {
-                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Registration failed."}`;
-                        errorMsg.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Registration Error:", error);
-                    showToast("Server error. Please try again later.", "error");
-                }
+                // Save to Firebase
+                const docRef = await addDoc(collection(db, "users"), { name, phone, email, password });
+                showToast("Account created successfully!", "success");
+                authorizeUser({ _id: docRef.id, name, phone, email });
+            } catch (error) {
+                console.error(error);
+                showToast("Server error. Please try again later.", "error");
             }
+        }
 
-            async function handleLogin(e) {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value.trim().toLowerCase();
-                const password = document.getElementById('login-password').value;
-                const errorMsg = document.getElementById('login-error');
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+            const errorMsg = document.getElementById('login-error');
 
-                try {
-                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        showToast(`Welcome back, ${data.user.name}!`, "success");
-                        authorizeUser(data.user);
-                    } else {
-                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Invalid email or password."}`;
-                        errorMsg.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error("Login Error:", error);
-                    showToast("Server error. Please try again later.", "error");
+            try {
+                const q = query(collection(db, "users"), where("email", "==", email), where("password", "==", password));
+                const snap = await getDocs(q);
+                
+                if (!snap.empty) {
+                    const userData = snap.docs[0].data();
+                    userData._id = snap.docs[0].id;
+                    showToast(`Welcome back, ${userData.name}!`, "success");
+                    authorizeUser(userData);
+                } else {
+                    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> Invalid email or password.`;
+                    errorMsg.style.display = 'block';
                 }
+            } catch (error) {
+                console.error(error);
+                showToast("Server error. Please try again later.", "error");
             }
+        }
 
-            function authorizeUser(userData) {
-                currentUser = { name: userData.name, phone: userData.phone, email: userData.email, id: userData._id };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        async function handleGoogleLogin() {
+            try {
+                // 1. Google Popup Open Karein
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // 2. Check karein ki user pehle se database mein hai ya nahi
+                const q = query(collection(db, "users"), where("email", "==", user.email));
+                const snap = await getDocs(q);
+                
+                let userData = {
+                    name: user.displayName,
+                    email: user.email,
+                    phone: user.phoneNumber || "N/A" 
+                };
 
-                updateAuthUI();
-                closeLoginModal();
-
-                if (document.getElementById('my-bookings-view').style.display !== 'block' && document.getElementById('user-view').style.display !== 'block') {
-                    showView('home');
+                if (snap.empty) {
+                    // Naya user hai, Firestore mein save karein
+                    const docRef = await addDoc(collection(db, "users"), userData);
+                    userData._id = docRef.id;
+                } else {
+                    // Purana user hai, uski ID nikal lein
+                    userData._id = snap.docs[0].id;
+                    userData.phone = snap.docs[0].data().phone || "N/A";
                 }
-            }
 
-            function processLogout(e) {
-                if (e) e.preventDefault();
-                currentUser = null;
-                localStorage.removeItem('currentUser');
-                updateAuthUI();
+                showToast(`Welcome, ${userData.name}!`, "success");
+                authorizeUser(userData);
+                
+            } catch (error) {
+                console.error("Google Login Error:", error);
+                // Agar abhi bhi koi error aaya, toh uska ASLI reason screen par dikhega
+                showToast("Error: " + error.message, "error");
+            }
+        }
+        function authorizeUser(userData) {
+            currentUser = { name: userData.name, phone: userData.phone, email: userData.email, id: userData._id };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeLoginModal();
+            if (document.getElementById('my-bookings-view').style.display !== 'block' && document.getElementById('user-view').style.display !== 'block') {
                 showView('home');
-                showToast("You have been logged out successfully.", "success");
             }
+        }
 
-            // --- 4. Frontend Rendering (Services & My Bookings) ---
-            async function loadInitialData() {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/services`);
-                    if (response.ok) {
-                        services = await response.json();
-                        renderServices();
-                        // Initialize GSAP after elements are in DOM
-                        setTimeout(initGSAPAnimations, 100);
-                    }
-                } catch (error) {
-                    console.error("Failed to load services:", error);
-                    showToast("Could not load services from the database.", "error");
-                }
+        function processLogout(e) {
+            if (e) e.preventDefault();
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateAuthUI();
+            showView('home');
+            showToast("You have been logged out successfully.", "success");
+        }
+
+        // --- Firebase DATA FETCH & RENDER ---
+       async function loadInitialData() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "services"));
+                services = querySnapshot.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+                renderServices();
+                setTimeout(initGSAPAnimations, 100);
+           } catch (error) {
+                console.error("Services Load Error:", error);
+                showToast("Error loading services: " + error.message, "error"); 
             }
-            function showView(viewId) {
-                // Hide all views first
-                document.getElementById('user-view').style.display = 'none';
-                document.getElementById('my-bookings-view').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('blog-view').style.display = 'none'; // ADDED THIS
-                document.getElementById('sidebar').classList.remove('open');
+        }
 
-                if (viewId === 'home') {
-                    document.getElementById('user-view').style.display = 'block';
-                    setTimeout(() => ScrollTrigger.refresh(), 100);
-                } else if (viewId === 'my-bookings') {
-                    if (!currentUser) {
-                        showToast("Please login first to view your bookings.", "warning");
-                        openLoginModal();
-                        return;
-                    }
-                    document.getElementById('my-bookings-view').style.display = 'block';
-                    renderUserBookings();
-                } else if (viewId === 'admin') {
-                    document.getElementById('admin-panel').style.display = 'block';
-                    renderAdminBookings();
-                } else if (viewId === 'blog') {
-                    // NEW LOGIC FOR BLOG VIEW
-                    document.getElementById('blog-view').style.display = 'block';
-                    window.scrollTo(0, 0); // Scroll to top
+        function filterServices(mood) {
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderServices(mood);
+        }
 
-                    // Super smooth GSAP staggered entrance animation for the cards
-                    gsap.fromTo(".blog-card",
-                        { y: 60, opacity: 0, scale: 0.9 },
-                        { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" }
-                    );
-                    gsap.fromTo(".blog-hero",
-                        { opacity: 0, scale: 0.95 },
-                        { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }
-                    );
-                }
-            }
-            function renderServices(filter = 'All') {
-                const container = document.getElementById('services-container');
-                container.innerHTML = '';
+        function renderServices(filter = 'All') {
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+            let renderedCount = 0;
 
-                // Map to generate cards
-                let renderedCount = 0;
-
-                services.forEach((service, index) => {
-                    if (filter !== 'All' && service.mood !== filter) return;
-
-                    const imageUrl = service.imageUrl || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80';
-
-                    const card = document.createElement('div');
-                    card.className = 'service-card dynamic-card';
-
-                    card.innerHTML = `
+            services.forEach((service) => {
+                if (filter !== 'All' && service.mood !== filter) return;
+                const imageUrl = service.imageUrl || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80';
+                const card = document.createElement('div');
+                card.className = 'service-card dynamic-card';
+                card.innerHTML = `
                     <div class="service-image-container">
                         <img src="${imageUrl}" alt="${service.name}" class="service-image" loading="lazy">
                         <div class="service-overlay"></div>
@@ -2199,115 +2206,226 @@
                             <span>|</span>
                             <span><i class="fas fa-magic"></i> ${service.mood}</span>
                         </div>
-                        
                         <div style="margin-bottom: 20px; min-height: 24px;">
                             ${service.popular ? '<span style="background:var(--gradient-gold); color:var(--text-dark); padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);"><i class="fas fa-fire-alt"></i> Popular Choice</span>' : ''}
                         </div>
-                        
                         <button class="btn btn-primary" style="width:100%; margin-top:auto; font-size: 15px;" onclick="openBookingModal('${service.name}', ${service.duration})">
                             Book Appointment <i class="fas fa-calendar-check" style="margin-left: 5px;"></i>
                         </button>
                     </div>
                 `;
-                    container.appendChild(card);
-                    renderedCount++;
-                });
+                container.appendChild(card);
+                renderedCount++;
+            });
 
-                // Animate newly rendered cards
-                if (renderedCount > 0) {
-                    gsap.fromTo(".dynamic-card",
-                        { y: 50, opacity: 0 },
-                        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", overwrite: true }
-                    );
-                }
+            if (renderedCount > 0) {
+                gsap.fromTo(".dynamic-card", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", overwrite: true });
             }
-            async function handleGoogleLogin(response) {
-                try {
-                    // Send the Google token to your backend
-                    const res = await fetch(`${API_BASE_URL}/auth/google`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ token: response.credential })
-                    });
+        }
 
-                    const data = await res.json();
+        // --- Booking Modals & Firebase Logic ---
+        function openBookingModal(serviceName, duration) {
+            document.getElementById('selected-service').value = serviceName;
+            document.getElementById('selected-duration').value = duration;
+            document.getElementById('modal-service-name').innerHTML = `<i class="fas fa-cut" style="color:var(--light-gold);"></i> Book ${serviceName}`;
+            const modal = document.getElementById('booking-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            resetModal();
+        }
 
-                    if (res.ok) {
-                        showToast(`Welcome, ${data.user.name}!`, "success");
-                        authorizeUser(data.user);
+        function closeModal() {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('active');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
+        function resetModal() {
+            document.getElementById('booking-step-1').style.display = 'block';
+            document.getElementById('booking-success').style.display = 'none';
+            if (!currentUser) {
+                document.getElementById('customer-name').value = '';
+                document.getElementById('customer-phone').value = '';
+            }
+            selectedTimeSlot = null;
+        }
+
+        async function loadSlots() {
+            const date = document.getElementById('booking-date').value;
+            const duration = parseInt(document.getElementById('selected-duration').value);
+            const container = document.getElementById('slots-container');
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;"><i class="fas fa-spinner fa-spin"></i> Checking availability...</p>';
+            selectedTimeSlot = null;
+
+            if (!date) return;
+
+            try {
+                const q = query(collection(db, "bookings"), where("date", "==", date));
+                const snap = await getDocs(q);
+                const existingBookings = snap.docs.map(doc => doc.data());
+
+                container.innerHTML = '';
+                const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
+                const requiredSlots = Math.ceil(duration / 30);
+
+                allSlots.forEach((slotText, index) => {
+                    const isAvailable = checkSlotAvailability(index, requiredSlots, allSlots, existingBookings);
+                    const slotDiv = document.createElement('div');
+                    let hour = parseInt(slotText.split(':')[0]);
+                    let ampm = hour >= 12 ? 'PM' : 'AM';
+                    let displayHour = hour > 12 ? hour - 12 : hour;
+                    slotDiv.innerText = `${displayHour}:${slotText.split(':')[1]} ${ampm}`;
+
+                    if (isAvailable) {
+                        slotDiv.className = 'slot available';
+                        slotDiv.onclick = () => {
+                            document.querySelectorAll('.slot').forEach(el => el.classList.remove('selected'));
+                            slotDiv.classList.add('selected');
+                            selectedTimeSlot = slotText;
+                        };
                     } else {
-                        const errorMsg = document.getElementById('login-error');
-                        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message || "Google Login failed."}`;
-                        errorMsg.style.display = 'block';
+                        slotDiv.className = 'slot full';
                     }
-                } catch (error) {
-                    console.error("Google Auth Error:", error);
-                    showToast("Server error during Google Login.", "error");
+                    container.appendChild(slotDiv);
+                });
+            } catch (error) {
+                container.innerHTML = '<p style="color:red; grid-column: 1/-1;">Failed to check slot availability.</p>';
+            }
+        }
+
+        function checkSlotAvailability(startIndex, required, allSlots, existingBookings) {
+            if (startIndex + required > allSlots.length) return false;
+            for (let i = 0; i < required; i++) {
+                const timeToCheck = allSlots[startIndex + i];
+                const isBooked = existingBookings.some(b => b.blockedSlots && b.blockedSlots.includes(timeToCheck));
+                if (isBooked) return false;
+            }
+            return true;
+        }
+
+       async function confirmBooking() {
+            const date = document.getElementById('booking-date').value;
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const serviceName = document.getElementById('selected-service').value;
+            const duration = parseInt(document.getElementById('selected-duration').value);
+
+            if (!date || !selectedTimeSlot || !name || !phone || !address) {
+                showToast("Please fill all details, select a date & slot.", "error");
+                return;
+            }
+
+            // Naya Logic: Hamesha current phone ko update rakhein
+            if (currentUser) {
+                if (currentUser.phone !== phone) {
+                    currentUser.phone = phone; // Local storage update
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    updateAuthUI();
+                    if (currentUser.id) {
+                        try { await updateDoc(doc(db, "users", currentUser.id), { phone: phone }); } catch(e){}
+                    }
                 }
-            }
-            function filterServices(mood) {
-                document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                renderServices(mood);
-            }
-
-            function openBookingModal(serviceName, duration) {
-                document.getElementById('selected-service').value = serviceName;
-                document.getElementById('selected-duration').value = duration;
-                document.getElementById('modal-service-name').innerHTML = `<i class="fas fa-cut" style="color:var(--light-gold);"></i> Book ${serviceName}`;
-
-                const modal = document.getElementById('booking-modal');
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('active'), 10);
-                resetModal();
+            } else {
+                currentUser = { phone: phone, name: name, email: "guest_" + phone + "@example.com" };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAuthUI();
             }
 
-            function closeModal() {
-                const modal = document.getElementById('booking-modal');
-                modal.classList.remove('active');
-                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
+            const startIndex = allSlots.indexOf(selectedTimeSlot);
+            const requiredSlotsCount = Math.ceil(duration / 30);
+            const blockedSlots = [];
+            for (let i = 0; i < requiredSlotsCount; i++) { blockedSlots.push(allSlots[startIndex + i]); }
+
+            // NAYA: EMAIL KO BHI SAVE KAREIN TAAKI BOOKING KABHI GUM NA HO
+            const newBooking = {
+                name, phone, email: currentUser.email, address, service: serviceName, date,
+                time: selectedTimeSlot, blockedSlots, payment: "Cash", status: "Pending"
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "bookings"), newBooking);
+                showToast("Booking Confirmed! 🎉", "success");
+
+                gsap.to("#booking-step-1", {
+                    opacity: 0, x: -50, duration: 0.3, onComplete: () => {
+                        document.getElementById('booking-step-1').style.display = 'none';
+                        document.getElementById('booking-success').style.display = 'block';
+                        document.getElementById('success-id').innerText = docRef.id.substring(0, 8).toUpperCase();
+                        document.getElementById('success-details').innerHTML = `
+                            <strong>Service:</strong> ${serviceName}<br>
+                            <strong>Date:</strong> ${date} | <strong>Time:</strong> ${selectedTimeSlot}<br><br>
+                            <i class="fas fa-info-circle"></i> Please pay Cash at the Parlour counter.`;
+                        gsap.fromTo("#booking-success", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.4 });
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                showToast("Server error. Please try again later.", "error");
             }
+        }
+        // --- My Bookings & Invoices ---
+async function renderUserBookings() {
+            const container = document.getElementById('user-bookings-container');
+            
+            const displayPhone = currentUser.phone && currentUser.phone !== "N/A" ? currentUser.phone : "No Phone";
+            document.getElementById('my-bookings-subtitle').innerHTML = `<i class="fas fa-user"></i> Account: <strong>${currentUser.name || 'Guest'}</strong> | <i class="fas fa-mobile-alt"></i> <strong>${displayPhone}</strong>`;
+            
+            container.innerHTML = '<div style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; color: var(--accent-pink);"></i><p style="margin-top: 15px;">Loading your appointments...</p></div>';
 
-            async function renderUserBookings() {
-                const container = document.getElementById('user-bookings-container');
-                document.getElementById('my-bookings-subtitle').innerHTML = `<i class="fas fa-mobile-alt"></i> Registered Phone: <strong>${currentUser.phone}</strong>`;
-                container.innerHTML = '<div style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; color: var(--accent-pink);"></i><p style="margin-top: 15px;">Loading your appointments...</p></div>';
+            try {
+                // BULLETPROOF LOGIC: Email aur Phone dono se data nikalo aur mila do
+                const bookingsMap = new Map();
 
-                try {
-                    const response = await fetch(`${API_BASE_URL}/bookings/user/${currentUser.phone}`);
-                    const myBookings = await response.json();
+                // 1. Email se bookings dhoondho (Agar email asli hai)
+                if (currentUser.email && !currentUser.email.startsWith("guest_")) {
+                    const qEmail = query(collection(db, "bookings"), where("email", "==", currentUser.email));
+                    const snapEmail = await getDocs(qEmail);
+                    snapEmail.docs.forEach(doc => bookingsMap.set(doc.id, { _id: doc.id, ...doc.data() }));
+                }
 
-                    container.innerHTML = '';
+                // 2. Phone Number se bookings dhoondho (Agar phone N/A nahi hai)
+                if (currentUser.phone && currentUser.phone !== "N/A") {
+                    const qPhone = query(collection(db, "bookings"), where("phone", "==", currentUser.phone));
+                    const snapPhone = await getDocs(qPhone);
+                    snapPhone.docs.forEach(doc => bookingsMap.set(doc.id, { _id: doc.id, ...doc.data() }));
+                }
 
-                    if (myBookings.length === 0) {
-                        container.innerHTML = `<div style="text-align:center; padding: 50px 20px; background:var(--white); border-radius:20px; box-shadow: var(--shadow-soft);">
+                // Dono ko Map se wapas Array mein convert karo
+                let myBookings = Array.from(bookingsMap.values());
+
+                container.innerHTML = '';
+                
+                // Agar koi booking nahi mili
+                if (myBookings.length === 0) {
+                    container.innerHTML = `<div style="text-align:center; padding: 50px 20px; background:var(--white); border-radius:20px; box-shadow: var(--shadow-soft);">
                         <i class="far fa-calendar-times" style="font-size: 50px; color: #ddd; margin-bottom: 20px;"></i>
                         <h3 style="color:var(--text-light); font-weight: 500;">You have no upcoming bookings.</h3>
                         <button class="btn btn-primary" style="margin-top:25px;" onclick="showView('home')">Explore Services</button>
                     </div>`;
-                        return;
-                    }
+                    return;
+                }
 
-                    myBookings.reverse().forEach((b, i) => {
-                        const statusText = b.status || 'Pending';
+                // Bookings ko screen par render karna
+                myBookings.reverse().forEach((b, i) => {
+                    const statusText = b.status || 'Pending';
+                    let statusColor = 'var(--dark-pink)';
+                    let statusBg = '#FFF0F5';
+                    let icon = 'fa-clock';
+                    
+                    if (statusText === 'Confirmed') { statusColor = '#2E7D32'; statusBg = '#E8F5E9'; icon = 'fa-check-circle'; }
+                    if (statusText === 'Rejected') { statusColor = '#D32F2F'; statusBg = '#FFEBEE'; icon = 'fa-times-circle'; }
 
-                        let statusColor = 'var(--dark-pink)';
-                        let statusBg = '#FFF0F5';
-                        let icon = 'fa-clock';
-                        if (statusText === 'Confirmed') { statusColor = '#2E7D32'; statusBg = '#E8F5E9'; icon = 'fa-check-circle'; }
-                        if (statusText === 'Rejected') { statusColor = '#D32F2F'; statusBg = '#FFEBEE'; icon = 'fa-times-circle'; }
+                    const card = document.createElement('div');
+                    card.className = 'compact-booking-card';
+                    card.style.borderLeftColor = statusColor;
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
 
-                        const card = document.createElement('div');
-                        card.className = 'compact-booking-card';
-                        card.style.borderLeftColor = statusColor;
+                    const bookingDataString = encodeURIComponent(JSON.stringify(b));
 
-                        // Delay animation slightly for stagger effect
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-
-                        const bookingDataString = encodeURIComponent(JSON.stringify(b));
-
-                        card.innerHTML = `
+                    card.innerHTML = `
                         <div class="compact-info">
                             <h4>${b.service} <span style="font-size:12px; padding:4px 10px; background:${statusBg}; border-radius:12px; color:${statusColor}; font-weight:600;"><i class="fas ${icon}"></i> ${statusText}</span></h4>
                             <p><i class="far fa-calendar-alt"></i> <strong>${b.date}</strong> &nbsp;|&nbsp; <i class="far fa-clock"></i> <strong>${b.time}</strong></p>
@@ -2317,285 +2435,101 @@
                             <button class="btn-view-bill" onclick="openBillModal('${bookingDataString}')"><i class="fas fa-file-invoice"></i> View Invoice</button>
                         </div>
                     `;
-                        container.appendChild(card);
-
-                        // GSAP entry animation for bookings
-                        gsap.to(card, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.1, ease: "power2.out" });
-                    });
-                } catch (error) {
-                    container.innerHTML = '<p style="color:var(--danger); text-align:center; padding: 30px; background: #FFEBEE; border-radius: 10px;">Error loading your bookings. Please try again later.</p>';
-                }
-            }
-
-            // --- 5. Booking Logic (Smart Slots) & Bill Modal ---
-            function openBillModal(encodedData) {
-                const b = JSON.parse(decodeURIComponent(encodedData));
-                const statusText = b.status || 'Pending';
-
-                let headerGradient = 'linear-gradient(135deg, var(--dark-pink) 0%, var(--accent-pink) 100%)';
-                if (statusText === 'Confirmed') headerGradient = 'linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)';
-                if (statusText === 'Rejected') headerGradient = 'linear-gradient(135deg, #C62828 0%, #EF5350 100%)';
-
-                const matchedService = services.find(s => s.name === b.service);
-                const price = matchedService ? matchedService.price : 0;
-                const displayPrice = price > 0 ? `₹${price}` : 'Price on Visit';
-
-                const modalContent = document.getElementById('bill-card-content');
-                modalContent.innerHTML = `
-                <button onclick="closeBillModal()" style="position:absolute; top:15px; right:15px; background:rgba(0,0,0,0.2); border:none; font-size:22px; cursor:pointer; color:#fff; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; z-index:10; transition: 0.3s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'">&times;</button>
+                    container.appendChild(card);
+                    gsap.to(card, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.1, ease: "power2.out" });
+                });
                 
+            } catch (error) {
+                container.innerHTML = '<p style="color:var(--danger); text-align:center; padding: 30px;">Error loading your bookings.</p>';
+                console.error("Booking fetch error:", error);
+            }
+        }
+        function openBillModal(encodedData) {
+            const b = JSON.parse(decodeURIComponent(encodedData));
+            const statusText = b.status || 'Pending';
+
+            let headerGradient = 'linear-gradient(135deg, var(--dark-pink) 0%, var(--accent-pink) 100%)';
+            if (statusText === 'Confirmed') headerGradient = 'linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)';
+            if (statusText === 'Rejected') headerGradient = 'linear-gradient(135deg, #C62828 0%, #EF5350 100%)';
+
+            const matchedService = services.find(s => s.name === b.service);
+            const price = matchedService ? matchedService.price : 0;
+            const displayPrice = price > 0 ? `₹${price}` : 'Price on Visit';
+
+            const modalContent = document.getElementById('bill-card-content');
+            modalContent.innerHTML = `
+                <button onclick="closeBillModal()" style="position:absolute; top:15px; right:15px; background:rgba(0,0,0,0.2); border:none; font-size:22px; cursor:pointer; color:#fff; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; z-index:10; transition: 0.3s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'">&times;</button>
                 <div class="bill-header" style="background: ${headerGradient};">
                     <h3 style="font-family: 'Playfair Display', serif;"><i class="fas fa-spa"></i> Salon Invoice</h3>
                     <span class="bill-status-badge">${statusText}</span>
                 </div>
-                
                 <div class="bill-body">
-                    <div class="bill-row">
-                        <span>Invoice ID:</span>
-                        <strong>#${b._id.substring(0, 10).toUpperCase()}</strong>
-                    </div>
-                    <div class="bill-row">
-                        <span>Date & Time:</span>
-                        <strong>${b.date} | ${b.time}</strong>
-                    </div>
-                    <div class="bill-row">
-                        <span>Customer Name:</span>
-                        <strong>${b.name}</strong>
-                    </div>
-
+                    <div class="bill-row"><span>Invoice ID:</span><strong>#${b._id.substring(0, 8).toUpperCase()}</strong></div>
+                    <div class="bill-row"><span>Date & Time:</span><strong>${b.date} | ${b.time}</strong></div>
+                    <div class="bill-row"><span>Customer Name:</span><strong>${b.name}</strong></div>
                     <div class="bill-divider"></div>
-                    
-                    <div class="bill-item-row">
-                        <span class="bill-item-name">${b.service}</span>
-                        <span class="bill-item-price">${displayPrice}</span>
-                    </div>
-                    
-                    <div class="bill-total-row">
-                        <span class="bill-total-label">Total Amount</span>
-                        <span class="bill-total-amount">${displayPrice}</span>
-                    </div>
+                    <div class="bill-item-row"><span class="bill-item-name">${b.service}</span><span class="bill-item-price">${displayPrice}</span></div>
+                    <div class="bill-total-row"><span class="bill-total-label">Total Amount</span><span class="bill-total-amount">${displayPrice}</span></div>
                 </div>
-                
                 <div class="bill-footer">
                     ${b.payment === 'Cash' ? '<i class="fas fa-money-bill-wave"></i> Payment to be collected at checkout' : '<i class="fas fa-credit-card"></i> Paid Online'} <br>
                     <small style="display:block; margin-top:8px; font-weight:500; font-size: 14px; font-family: 'Playfair Display', serif;">Thank you for choosing Elegance Salon!</small>
                 </div>
             `;
+            const modal = document.getElementById('bill-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            gsap.fromTo(".premium-bill-card", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
+        }
 
-                const modal = document.getElementById('bill-modal');
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('active'), 10);
+        function closeBillModal() {
+            const modal = document.getElementById('bill-modal');
+            modal.classList.remove('active');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
 
-                // Pop animation for bill
-                gsap.fromTo(".premium-bill-card", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
-            }
-
-            function closeBillModal() {
-                const modal = document.getElementById('bill-modal');
-                modal.classList.remove('active');
-                setTimeout(() => { modal.style.display = 'none'; }, 300);
-            }
-
-            function resetModal() {
-                document.getElementById('booking-step-1').style.display = 'block';
-                document.getElementById('booking-success').style.display = 'none';
-
-                if (!currentUser) {
-                    document.getElementById('customer-name').value = '';
-                    document.getElementById('customer-phone').value = '';
-                }
-                selectedTimeSlot = null;
-            }
-
-            async function loadSlots() {
-                const date = document.getElementById('booking-date').value;
-                const duration = parseInt(document.getElementById('selected-duration').value);
-                const container = document.getElementById('slots-container');
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;"><i class="fas fa-spinner fa-spin"></i> Checking availability...</p>';
-                selectedTimeSlot = null;
-
-                if (!date) return;
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/bookings/date/${date}`);
-                    const existingBookings = await response.json();
-
-                    container.innerHTML = '';
-                    const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
-                    const requiredSlots = Math.ceil(duration / 30);
-
-                    allSlots.forEach((slotText, index) => {
-                        const isAvailable = checkSlotAvailability(index, requiredSlots, allSlots, existingBookings);
-
-                        const slotDiv = document.createElement('div');
-                        let hour = parseInt(slotText.split(':')[0]);
-                        let ampm = hour >= 12 ? 'PM' : 'AM';
-                        let displayHour = hour > 12 ? hour - 12 : hour;
-                        let displayTime = `${displayHour}:${slotText.split(':')[1]} ${ampm}`;
-
-                        slotDiv.innerText = displayTime;
-
-                        if (isAvailable) {
-                            slotDiv.className = 'slot available';
-                            slotDiv.onclick = () => selectSlot(slotDiv, slotText);
-                        } else {
-                            slotDiv.className = 'slot full';
-                        }
-
-                        container.appendChild(slotDiv);
-                    });
-                } catch (error) {
-                    container.innerHTML = '<p style="color:red; grid-column: 1/-1;">Failed to check slot availability.</p>';
-                }
-            }
-
-            function checkSlotAvailability(startIndex, required, allSlots, existingBookings) {
-                if (startIndex + required > allSlots.length) return false;
-                for (let i = 0; i < required; i++) {
-                    const timeToCheck = allSlots[startIndex + i];
-                    const isBooked = existingBookings.some(b => b.blockedSlots.includes(timeToCheck));
-                    if (isBooked) return false;
-                }
-                return true;
-            }
-
-            function selectSlot(element, slotValue) {
-                document.querySelectorAll('.slot').forEach(el => el.classList.remove('selected'));
-                element.classList.add('selected');
-                selectedTimeSlot = slotValue;
-            }
-
-            async function confirmBooking() {
-                const date = document.getElementById('booking-date').value;
-                const name = document.getElementById('customer-name').value.trim();
-                const phone = document.getElementById('customer-phone').value.trim();
-                const address = document.getElementById('customer-address').value.trim();
-                const serviceName = document.getElementById('selected-service').value;
-                const duration = parseInt(document.getElementById('selected-duration').value);
-
-                if (!date || !selectedTimeSlot || !name || !phone || !address) {
-                    showToast("Please fill all details, select a date & slot.", "error");
+        async function renderAdminBookings() {
+            const tbody = document.getElementById('admin-bookings-table');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading data...</td></tr>';
+            try {
+                const snap = await getDocs(collection(db, "bookings"));
+                const bookings = snap.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+                tbody.innerHTML = '';
+                if (bookings.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No bookings yet.</td></tr>';
                     return;
                 }
-
-                if (!currentUser) {
-                    currentUser = { phone: phone, name: name, email: "guest@example.com" };
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    updateAuthUI();
-                }
-
-                const allSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
-                const startIndex = allSlots.indexOf(selectedTimeSlot);
-                const requiredSlotsCount = Math.ceil(duration / 30);
-                const blockedSlots = [];
-                for (let i = 0; i < requiredSlotsCount; i++) {
-                    blockedSlots.push(allSlots[startIndex + i]);
-                }
-
-                const newBooking = {
-                    name, phone, address, service: serviceName, date,
-                    time: selectedTimeSlot, blockedSlots, payment: "Cash"
-                };
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/bookings`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newBooking)
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        showToast("Booking Confirmed! 🎉", "success");
-
-                        // Slide out step 1, slide in success step
-                        gsap.to("#booking-step-1", {
-                            opacity: 0, x: -50, duration: 0.3, onComplete: () => {
-                                document.getElementById('booking-step-1').style.display = 'none';
-                                document.getElementById('booking-success').style.display = 'block';
-                                document.getElementById('success-id').innerText = data.booking._id.toUpperCase();
-                                document.getElementById('success-details').innerHTML = `
-                            <strong>Service:</strong> ${serviceName}<br>
-                            <strong>Date:</strong> ${date} | <strong>Time:</strong> ${selectedTimeSlot}<br>
-                            <br>
-                            <i class="fas fa-info-circle"></i> Please pay Cash at the Parlour counter.
-                        `;
-                                gsap.fromTo("#booking-success", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.4 });
-                            }
-                        });
-
-                        if (document.getElementById('admin-panel').style.display === 'block') {
-                            renderAdminBookings();
-                        }
-                    } else {
-                        showToast(data.message || "Failed to book slot.", "error");
-                    }
-                } catch (error) {
-                    showToast("Server error. Please try again later.", "error");
-                }
-            }
-
-            async function renderAdminBookings() {
-                const tbody = document.getElementById('admin-bookings-table');
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading data...</td></tr>';
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/bookings/all`);
-                    const bookings = await response.json();
-
-                    tbody.innerHTML = '';
-
-                    if (bookings.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No bookings yet.</td></tr>';
-                        return;
-                    }
-
-                    bookings.forEach(b => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
+                bookings.forEach(b => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                         <td><span style="background: #f0f0f0; padding: 4px 8px; border-radius: 6px; font-family: monospace;">#${b._id.substring(0, 8).toUpperCase()}</span></td>
                         <td><strong>${b.name}</strong><br><small style="color:var(--text-light)"><i class="fas fa-phone"></i> ${b.phone}</small></td>
                         <td>${b.service}</td>
                         <td>${b.date}<br><small style="color:var(--text-light)"><i class="far fa-clock"></i> ${b.time}</small></td>
                         <td><span style="background: #e8f5e9; color: var(--success); padding: 4px 10px; border-radius: 20px; font-size:12px; font-weight:600;">${b.payment}</span></td>
-                        <td><button onclick="deleteBooking('${b._id}')" style="background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; transition:0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                        <td><button onclick="deleteBooking('${b._id}')" style="background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;"><i class="fas fa-trash-alt"></i> Delete</button></td>
                     `;
-                        tbody.appendChild(tr);
-                    });
-                } catch (error) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error loading database bookings.</td></tr>';
-                }
+                    tbody.appendChild(tr);
+                });
+            } catch (error) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error loading database bookings.</td></tr>'; }
+        }
+
+        async function deleteBooking(id) {
+            if (confirm("Are you sure you want to permanently delete this booking?")) {
+                try {
+                    await deleteDoc(doc(db, "bookings", id));
+                    showToast("Booking deleted successfully.", "success");
+                    if (document.getElementById('admin-panel').style.display === 'block') renderAdminBookings();
+                    if (document.getElementById('my-bookings-view').style.display === 'block') renderUserBookings();
+                } catch (error) { showToast("Server error.", "error"); }
             }
+        }
 
-            async function deleteBooking(id) {
-                if (confirm("Are you sure you want to permanently delete this booking?")) {
-                    try {
-                        const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
-                            method: 'DELETE'
-                        });
-
-                        if (response.ok) {
-                            showToast("Booking deleted successfully.", "success");
-                            renderAdminBookings();
-                            if (document.getElementById('my-bookings-view').style.display === 'block') {
-                                renderUserBookings();
-                            }
-                        } else {
-                            showToast("Failed to delete booking.", "error");
-                        }
-                    } catch (error) {
-                        showToast("Server error.", "error");
-                    }
-                }
-            }
-
-            // --- Initialize App on load ---
-            window.onload = () => {
-                updateAuthUI();
-                loadInitialData(); // Fetches services from DB & fires initial GSAP animations
-            };
-        </script>
+        window.onload = () => {
+            updateAuthUI();
+            loadInitialData(); 
+        };
+    </script>
 </body>
 
 </html>
